@@ -1,5 +1,5 @@
 import { isOpenNow, getTodayOpeningHours } from "@/lib/utils/time";
-import { Clock, Calendar, UtensilsCrossed, Beer } from "lucide-react";
+import { Clock, Calendar, UtensilsCrossed, Beer, MapPin, Phone, PartyPopper, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
@@ -160,10 +160,77 @@ export default async function HomePage() {
 
           <div className="border-t border-[var(--color-border)]" />
 
+          {/* Upcoming events preview */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold text-[var(--color-text)]">Nächste Events</h2>
+              <Link href="/events" className="text-sm text-[var(--color-accent)] font-medium hover:underline flex items-center gap-1">
+                Alle anzeigen <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {[
+                { icon: "🍻", title: "Frühschoppen", sub: "Jeden Sonntag ab 10 Uhr · Live-Musik am 1. Sonntag", href: "/events" },
+                { icon: "🏆", title: "Maibock-Anstich", sub: "Sa, 17. Mai 2026 · 15:00 Uhr · Reservierung empfohlen", href: "/events" },
+                { icon: "🏟️", title: "Brauereiführung", sub: "Sa, 24. Mai 2026 · 10:00 Uhr · +30 Treuepunkte", href: "/events" },
+              ].map((e) => (
+                <Link key={e.title} href={e.href}>
+                  <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl px-4 py-3 flex items-center gap-3 hover:border-[var(--color-accent)] transition-colors card-shadow">
+                    <span className="text-xl">{e.icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-[var(--color-text)] text-sm">{e.title}</p>
+                      <p className="text-xs text-[var(--color-muted)] truncate">{e.sub}</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-[var(--color-muted)] shrink-0" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          <div className="border-t border-[var(--color-border)]" />
+
           {/* News */}
           <section>
             <h2 className="text-lg font-bold text-[var(--color-text)] mb-5">Aktuelles & Neuigkeiten</h2>
             <NewsFeed posts={posts} />
+          </section>
+
+          <div className="border-t border-[var(--color-border)]" />
+
+          {/* Kontakt & Info */}
+          <section className="space-y-3">
+            <h2 className="text-lg font-bold text-[var(--color-text)]">Besuche uns</h2>
+            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 space-y-4 card-shadow">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 text-[var(--color-accent)] mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-sm font-medium text-[var(--color-text)]">SCHWIND Bräu</p>
+                  <p className="text-sm text-[var(--color-muted)]">Brauhaus Schwindbräu · Schwindbräustraße · Bayern</p>
+                  <a
+                    href="https://maps.google.com/?q=Schwindbräu+Bayern"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-[var(--color-accent)] hover:underline mt-0.5 inline-block"
+                  >
+                    In Google Maps öffnen →
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Clock className="w-4 h-4 text-[var(--color-accent)] shrink-0" />
+                <div className="text-sm text-[var(--color-muted)]">
+                  <span className="font-medium text-[var(--color-text)]">Öffnungszeiten:</span>{" "}
+                  {hours}
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-[var(--color-accent)] shrink-0" />
+                <a href="tel:+4900000000" className="text-sm text-[var(--color-accent)] hover:underline">
+                  Anrufen
+                </a>
+              </div>
+            </div>
           </section>
         </div>
       </main>

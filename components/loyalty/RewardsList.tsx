@@ -46,6 +46,7 @@ export function RewardsList({ rewards, userPoints, userId, onRedeem }: RewardsLi
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {rewards.filter((r) => r.available).map((reward) => {
         const canRedeem = userPoints >= reward.points_required;
+        const progress = Math.min((userPoints / reward.points_required) * 100, 100);
         return (
           <Card key={reward.id} className="p-4 space-y-3">
             <div className="flex items-start justify-between">
@@ -57,6 +58,20 @@ export function RewardsList({ rewards, userPoints, userId, onRedeem }: RewardsLi
             {reward.description && (
               <p className="text-xs text-[var(--color-muted)]">{reward.description}</p>
             )}
+            {/* Progress bar */}
+            <div className="space-y-1">
+              <div className="h-1.5 bg-[var(--color-surface-2)] rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-500 ${canRedeem ? "bg-[var(--color-accent)]" : "bg-amber-300"}`}
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              {!canRedeem && (
+                <p className="text-[10px] text-[var(--color-muted)]">
+                  {userPoints} / {reward.points_required} Pkt. ({Math.round(progress)}%)
+                </p>
+              )}
+            </div>
             {confirmed === reward.id ? (
               <div className="text-xs text-[var(--color-success)] bg-green-50 border border-green-200 px-3 py-2 rounded-lg">
                 Eingelöst – zeige dem Personal diesen Bildschirm.

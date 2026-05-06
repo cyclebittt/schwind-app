@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { PointsCard } from "@/components/loyalty/PointsCard";
 import { RewardsList } from "@/components/loyalty/RewardsList";
 import { TransactionHistory } from "@/components/loyalty/TransactionHistory";
+import { InviteFriend } from "@/components/loyalty/InviteFriend";
 import { BEER_TYPES } from "@/lib/utils/points";
 import type { Level } from "@/lib/utils/points";
 import type { Reward } from "@/components/loyalty/RewardsList";
@@ -106,6 +107,9 @@ export default async function LoyaltyPage() {
           onRedeem={() => {}}
         />
       </section>
+
+      {/* Invite friend */}
+      <InviteFriend userId={user.id} />
 
       {/* History */}
       <section>

@@ -10,6 +10,7 @@ import { useUserPoints } from "@/lib/hooks/useUserPoints";
 const navLinks = [
   { href: "/",        label: "Aktuelles"   },
   { href: "/menu",    label: "Speisekarte" },
+  { href: "/events",  label: "Events"      },
   { href: "/reserve", label: "Reservieren" },
 ];
 

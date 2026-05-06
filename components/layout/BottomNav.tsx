@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Newspaper, Beer, Calendar, Trophy, User } from "lucide-react";
+import { Newspaper, Beer, PartyPopper, Trophy, User } from "lucide-react";
 
 const tabs = [
-  { href: "/",        label: "News",        icon: Newspaper },
-  { href: "/menu",    label: "Speisekarte", icon: Beer      },
-  { href: "/reserve", label: "Reservieren", icon: Calendar  },
-  { href: "/loyalty", label: "Punkte",      icon: Trophy    },
-  { href: "/profile", label: "Profil",      icon: User      },
+  { href: "/",        label: "News",        icon: Newspaper    },
+  { href: "/menu",    label: "Speisekarte", icon: Beer         },
+  { href: "/events",  label: "Events",      icon: PartyPopper  },
+  { href: "/loyalty", label: "Punkte",      icon: Trophy       },
+  { href: "/profile", label: "Profil",      icon: User         },
 ];
 
 export function BottomNav() {
