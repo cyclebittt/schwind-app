@@ -1,5 +1,3 @@
-import { Navbar } from "@/components/layout/Navbar";
-import { BottomNav } from "@/components/layout/BottomNav";
 import { formatPrice } from "@/lib/utils/formatters";
 import { ALLERGEN_LABELS } from "@/lib/utils/formatters";
 
@@ -86,10 +84,7 @@ export default async function MenuPage() {
   const menu = await fetchMenu();
 
   return (
-    <>
-      <Navbar />
-      <main className="flex-1 pb-24 md:pb-0">
-        <div className="max-w-2xl mx-auto px-4 py-8 space-y-10">
+    <div className="max-w-2xl mx-auto px-4 py-8 space-y-10">
           <div>
             <h1 className="text-2xl font-bold text-[var(--color-text)]">Speisekarte</h1>
             <p className="text-sm text-[var(--color-muted)] mt-1">SCHWIND Bräu – Gaststätte & Ausschank</p>
@@ -139,9 +134,6 @@ export default async function MenuPage() {
           <p className="text-xs text-[var(--color-muted)] text-center pt-4">
             Alle Preise inkl. MwSt. · Änderungen vorbehalten · Schwindbräu seit 1761
           </p>
-        </div>
-      </main>
-      <BottomNav />
-    </>
+    </div>
   );
 }
