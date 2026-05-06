@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { PointsCard } from "@/components/loyalty/PointsCard";
+import { MemberCard } from "@/components/loyalty/MemberCard";
 import { RewardsList } from "@/components/loyalty/RewardsList";
 import { TransactionHistory } from "@/components/loyalty/TransactionHistory";
 import { InviteFriend } from "@/components/loyalty/InviteFriend";
@@ -57,7 +57,7 @@ export default async function LoyaltyPage() {
         <p className="text-sm text-[var(--color-muted)] mt-1">Sammle Punkte bei jedem Bierkauf</p>
       </div>
 
-      <PointsCard
+      <MemberCard
         points={profile?.points ?? 0}
         level={(profile?.level ?? "bronze") as Level}
         name={profile?.name ?? ""}

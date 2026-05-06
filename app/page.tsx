@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Navbar } from "@/components/layout/Navbar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { NewsFeed } from "@/components/news/NewsFeed";
+import { HomeLoyaltyWidget } from "@/components/loyalty/HomeLoyaltyWidget";
 import type { NewsPost } from "@/components/news/NewsCard";
 
 const DEMO_POSTS: NewsPost[] = [
@@ -142,21 +143,8 @@ export default async function HomePage() {
             </div>
           </section>
 
-          {/* Treuepunkte-Teaser */}
-          <section className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-5">
-            <div className="flex items-start gap-4">
-              <div className="text-3xl">🍺</div>
-              <div className="space-y-1">
-                <h2 className="font-bold text-[var(--color-text)]">Sammle Punkte mit jedem Bier</h2>
-                <p className="text-sm text-[var(--color-muted)]">
-                  Vom Stammgast zum Braumeister: Jeder Bierkauf bringt dir Treuepunkte. Löse sie gegen Freigetränke, Brauerei-Touren und mehr ein.
-                </p>
-                <Link href="/login" className="inline-block mt-2 text-sm font-semibold text-[var(--color-accent)] hover:underline">
-                  Jetzt registrieren →
-                </Link>
-              </div>
-            </div>
-          </section>
+          {/* Loyalty widget – shows card for logged-in users, teaser for guests */}
+          <HomeLoyaltyWidget />
 
           <div className="border-t border-[var(--color-border)]" />
 
