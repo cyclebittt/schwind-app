@@ -2,70 +2,160 @@
 
 :root {
   /* Schwindbräu – warme Amber-Brauerei-Palette */
-  --color-bg: #F7F3EC;
-  --color-surface: #FFFFFF;
-  --color-surface-2: #EEE8DC;
-  --color-border: #D9D0BF;
-  --color-accent: #C8920A;        /* Schwindbräu Gold – exakt aus dem Logo */
+  --color-bg:           #F5F0E8;
+  --color-surface:      #FFFFFF;
+  --color-surface-2:    #EDE7D8;
+  --color-surface-3:    #E4DCC8;
+  --color-border:       #D6CCBA;
+  --color-border-light: #E8E1D0;
+
+  /* Hauptakzent: Schwindbräu Gold */
+  --color-accent:       #C8920A;
   --color-accent-hover: #A87508;
-  --color-accent-2: #B04000;
-  --color-text: #1C1608;
-  --color-muted: #6B5F4A;
-  --color-success: #2A6E3F;
-  --color-warning: #C8820A;
-  --color-danger: #B04000;
-  --color-nav-bg: #FFFFFF;
+  --color-accent-light: #FDF3DC;
+
+  /* Erweiterung: Tiefes Braunschwarz für Premium-Flächen */
+  --color-deep:         #120C00;
+  --color-deep-2:       #1E1400;
+
+  /* Semantic */
+  --color-text:         #1A1408;
+  --color-muted:        #6B5F4A;
+  --color-muted-light:  #9B8E77;
+  --color-success:      #1E6E38;
+  --color-warning:      #C8820A;
+  --color-danger:       #A83000;
 }
 
 @theme inline {
-  --color-bg: var(--color-bg);
-  --color-surface: var(--color-surface);
-  --color-surface-2: var(--color-surface-2);
-  --color-border: var(--color-border);
-  --color-accent: var(--color-accent);
-  --color-accent-2: var(--color-accent-2);
-  --color-text: var(--color-text);
-  --color-muted: var(--color-muted);
-  --color-success: var(--color-success);
-  --color-warning: var(--color-warning);
-  --color-danger: var(--color-danger);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
+  --color-bg:           var(--color-bg);
+  --color-surface:      var(--color-surface);
+  --color-surface-2:    var(--color-surface-2);
+  --color-border:       var(--color-border);
+  --color-accent:       var(--color-accent);
+  --color-text:         var(--color-text);
+  --color-muted:        var(--color-muted);
+  --color-success:      var(--color-success);
+  --color-warning:      var(--color-warning);
+  --color-danger:       var(--color-danger);
+  --font-sans:          var(--font-jakarta);
+  --font-mono:          var(--font-geist-mono);
 }
 
+/* ─────────────────────────────────────────────
+   Base
+───────────────────────────────────────────── */
 * { box-sizing: border-box; }
 
-html { height: 100%; font-size: 17px; }
+html { height: 100%; font-size: 16px; }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+  font-family: var(--font-sans), "Plus Jakarta Sans", system-ui, sans-serif;
   min-height: 100%;
-  line-height: 1.6;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--color-surface-2); }
-::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
 
 :focus-visible {
-  outline: 3px solid var(--color-accent);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
-@keyframes warm-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(200, 130, 10, 0.35); }
-  50%       { box-shadow: 0 0 0 8px rgba(200, 130, 10, 0); }
-}
-
-.gold-glow { animation: warm-pulse 2s ease-in-out infinite; }
-
+/* ─────────────────────────────────────────────
+   Shadow system
+───────────────────────────────────────────── */
 .card-shadow {
-  box-shadow: 0 1px 4px rgba(28, 22, 8, 0.08), 0 4px 16px rgba(28, 22, 8, 0.06);
+  box-shadow:
+    0 1px 2px rgba(28, 20, 8, 0.06),
+    0 3px 10px rgba(28, 20, 8, 0.07),
+    inset 0 1px 0 rgba(255,255,255,0.8);
 }
 .card-shadow-md {
-  box-shadow: 0 2px 8px rgba(28, 22, 8, 0.10), 0 8px 24px rgba(28, 22, 8, 0.08);
+  box-shadow:
+    0 2px 6px rgba(28, 20, 8, 0.08),
+    0 8px 24px rgba(28, 20, 8, 0.10),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.card-shadow-lg {
+  box-shadow:
+    0 4px 12px rgba(28, 20, 8, 0.10),
+    0 16px 40px rgba(28, 20, 8, 0.14),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.float-shadow {
+  box-shadow:
+    0 8px 20px rgba(28, 20, 8, 0.12),
+    0 24px 60px rgba(28, 20, 8, 0.16);
+}
+
+/* ─────────────────────────────────────────────
+   Interactive card lift
+───────────────────────────────────────────── */
+.card-lift {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 16px rgba(28, 20, 8, 0.10),
+    0 12px 32px rgba(28, 20, 8, 0.12);
+}
+.card-lift:active {
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────────
+   Animations
+───────────────────────────────────────────── */
+@keyframes warm-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200, 146, 10, 0.40); }
+  50%       { box-shadow: 0 0 0 10px rgba(200, 146, 10, 0); }
+}
+@keyframes shimmer {
+  from { background-position: -400px 0; }
+  to   { background-position:  400px 0; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.gold-glow      { animation: warm-pulse 2.2s ease-in-out infinite; }
+.animate-fade-up { animation: fade-up 320ms ease both; }
+.animate-scale-in { animation: scale-in 220ms ease both; }
+
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--color-surface-2) 0%,
+    var(--color-surface-3) 50%,
+    var(--color-surface-2) 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────
+   Typography helpers
+───────────────────────────────────────────── */
+.text-display {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+.text-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }

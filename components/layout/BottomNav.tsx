@@ -5,35 +5,58 @@ import { usePathname } from "next/navigation";
 import { Newspaper, Beer, PartyPopper, Trophy, User } from "lucide-react";
 
 const tabs = [
-  { href: "/",        label: "News",        icon: Newspaper    },
-  { href: "/menu",    label: "Speisekarte", icon: Beer         },
-  { href: "/events",  label: "Events",      icon: PartyPopper  },
-  { href: "/loyalty", label: "Punkte",      icon: Trophy       },
-  { href: "/profile", label: "Profil",      icon: User         },
+  { href: "/",        label: "News",        icon: Newspaper   },
+  { href: "/menu",    label: "Speisekarte", icon: Beer        },
+  { href: "/events",  label: "Events",      icon: PartyPopper },
+  { href: "/loyalty", label: "Punkte",      icon: Trophy      },
+  { href: "/profile", label: "Profil",      icon: User        },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[var(--color-border)] shadow-[0_-2px_12px_rgba(28,22,8,0.08)] md:hidden">
-      <div className="grid grid-cols-5 h-[68px]">
-        {tabs.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href || (href !== "/" && pathname.startsWith(href));
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={[
-                "flex flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors py-2",
-                active ? "text-[var(--color-accent)]" : "text-[var(--color-muted)] hover:text-[var(--color-text)]",
-              ].join(" ")}
-            >
-              <Icon className="w-5 h-5" strokeWidth={active ? 2.5 : 1.8} />
-              <span>{label}</span>
-            </Link>
-          );
-        })}
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden pb-safe">
+      {/* Floating pill container */}
+      <div className="mx-3 mb-3">
+        <div
+          className="bg-white/95 backdrop-blur-md rounded-2xl grid grid-cols-5 h-[62px] px-1"
+          style={{
+            boxShadow:
+              "0 4px 16px rgba(28,20,8,0.12), 0 16px 48px rgba(28,20,8,0.14), inset 0 1px 0 rgba(255,255,255,0.9)",
+          }}
+        >
+          {tabs.map(({ href, label, icon: Icon }) => {
+            const active = pathname === href || (href !== "/" && pathname.startsWith(href));
+            return (
+              <Link
+                key={href}
+                href={href}
+                className="flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-colors relative"
+              >
+                {/* Active background pill */}
+                {active && (
+                  <span className="absolute inset-x-1 inset-y-1 rounded-xl bg-[var(--color-accent-light)]" />
+                )}
+                <Icon
+                  className={[
+                    "relative w-[22px] h-[22px] transition-colors",
+                    active ? "text-[var(--color-accent)]" : "text-[var(--color-muted-light)]",
+                  ].join(" ")}
+                  strokeWidth={active ? 2.2 : 1.7}
+                />
+                <span
+                  className={[
+                    "relative text-[10px] font-semibold tracking-wide transition-colors",
+                    active ? "text-[var(--color-accent)]" : "text-[var(--color-muted-light)]",
+                  ].join(" ")}
+                >
+                  {label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </nav>
   );

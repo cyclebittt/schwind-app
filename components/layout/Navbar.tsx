@@ -22,7 +22,7 @@ export function Navbar() {
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[var(--color-border)] shadow-sm hidden md:block">
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-          <Image src="/logo-dark.svg" alt="SCHWIND Bräu" width={120} height={74} priority />
+          <Image src="/logo-dark.svg" alt="SCHWIND Bräu" width={88} height={54} priority />
         </Link>
 
         <nav className="flex items-center gap-1">

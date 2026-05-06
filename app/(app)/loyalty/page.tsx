@@ -61,6 +61,7 @@ export default async function LoyaltyPage() {
         points={profile?.points ?? 0}
         level={(profile?.level ?? "bronze") as Level}
         name={profile?.name ?? ""}
+        userId={user.id}
       />
 
       {/* Level benefits */}

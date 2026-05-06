@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { NewsFeed } from "@/components/news/NewsFeed";
 import { HomeLoyaltyWidget } from "@/components/loyalty/HomeLoyaltyWidget";
+import { DailyCheckIn } from "@/components/loyalty/DailyCheckIn";
 import type { NewsPost } from "@/components/news/NewsCard";
 
 const DEMO_POSTS: NewsPost[] = [
@@ -142,6 +143,9 @@ export default async function HomePage() {
               </Link>
             </div>
           </section>
+
+          {/* Daily check-in */}
+          <DailyCheckIn />
 
           {/* Loyalty widget – shows card for logged-in users, teaser for guests */}
           <HomeLoyaltyWidget />

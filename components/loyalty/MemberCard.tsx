@@ -1,6 +1,7 @@
 "use client";
 
 import { progressToNextLevel, LEVELS } from "@/lib/utils/points";
+import { QRDrawer } from "@/components/loyalty/QRDrawer";
 import type { Level } from "@/lib/utils/points";
 
 const levelConfig: Record<Level, {
@@ -47,9 +48,10 @@ interface MemberCardProps {
   level: Level;
   name: string;
   compact?: boolean;
+  userId?: string;
 }
 
-export function MemberCard({ points, level, name, compact = false }: MemberCardProps) {
+export function MemberCard({ points, level, name, compact = false, userId }: MemberCardProps) {
   const cfg = levelConfig[level];
   const progress = progressToNextLevel(points);
 
@@ -122,6 +124,11 @@ export function MemberCard({ points, level, name, compact = false }: MemberCardP
         <p className="relative text-[11px] text-yellow-300/70 font-medium">
           🏆 Höchstes Level erreicht
         </p>
+      )}
+
+      {/* QR trigger — only on full card with userId */}
+      {!compact && userId && (
+        <QRDrawer userId={userId} name={name} points={points} />
       )}
     </div>
   );
