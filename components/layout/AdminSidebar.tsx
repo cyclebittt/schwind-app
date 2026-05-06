@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Calendar, Newspaper, UtensilsCrossed, Beer, LogOut } from "lucide-react";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
@@ -26,14 +27,9 @@ export function AdminSidebar() {
 
   return (
     <aside className="w-56 bg-[var(--color-surface)] border-r border-[var(--color-border)] flex flex-col h-screen sticky top-0">
-      <div className="p-4 border-b border-[var(--color-border)] flex items-center gap-2">
-        <div className="w-8 h-8 rounded-md bg-[var(--color-accent)] flex items-center justify-center">
-          <span className="text-white font-bold text-sm">S</span>
-        </div>
-        <div>
-          <div className="text-xs font-bold uppercase tracking-wider text-[var(--color-text)]">SCHWIND Bräu</div>
-          <div className="text-[10px] text-[var(--color-muted)]">Admin</div>
-        </div>
+      <div className="p-4 border-b border-[var(--color-border)] flex flex-col items-center gap-1">
+        <Image src="/logo-dark.svg" alt="SCHWIND Bräu" width={100} height={62} />
+        <span className="text-[10px] text-[var(--color-muted)] uppercase tracking-widest font-medium">Admin</span>
       </div>
 
       <nav className="flex-1 p-2 space-y-0.5">

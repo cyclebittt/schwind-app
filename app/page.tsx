@@ -77,34 +77,36 @@ export default async function HomePage() {
       <main className="flex-1 pb-24 md:pb-0">
 
         {/* Hero */}
-        <div className="relative bg-[#1C1000] overflow-hidden">
-          <div className="absolute inset-0 opacity-25">
+        <div className="relative bg-[#1A0E00] overflow-hidden">
+          <div className="absolute inset-0 opacity-30">
             <Image
-              src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&q=80"
+              src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=1200&q=80"
               alt="Brauerei Atmosphäre"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               priority
             />
           </div>
-          <div className="relative max-w-2xl mx-auto px-4 py-10 flex items-center gap-6">
-            <div className="w-24 h-24 rounded-2xl bg-[var(--color-accent)] flex items-center justify-center shadow-lg flex-shrink-0">
-              <span className="text-white font-bold text-4xl">S</span>
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-white leading-tight">SCHWIND Bräu</h1>
-              <p className="text-white/70 text-base mt-1">Brauerei & Gaststätte · Seit 1761</p>
-              <div
-                className={[
-                  "inline-flex items-center gap-2 mt-3 text-sm font-semibold px-3 py-1.5 rounded-lg",
-                  open
-                    ? "bg-green-500/20 text-green-300 border border-green-500/40"
-                    : "bg-white/10 text-white/60 border border-white/20",
-                ].join(" ")}
-              >
-                <span className={`w-2 h-2 rounded-full ${open ? "bg-green-400 animate-pulse" : "bg-white/40"}`} />
-                {open ? "Heute geöffnet" : "Aktuell geschlossen"}
-              </div>
+          <div className="relative max-w-2xl mx-auto px-6 py-12 flex flex-col items-center text-center gap-5">
+            <Image
+              src="/logo.svg"
+              alt="SCHWIND Bräu"
+              width={180}
+              height={111}
+              className="drop-shadow-2xl"
+              priority
+            />
+            <p className="text-white/80 text-sm tracking-wide uppercase">Brauerei & Gaststätte</p>
+            <div
+              className={[
+                "inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full",
+                open
+                  ? "bg-green-500/20 text-green-300 border border-green-500/40"
+                  : "bg-white/10 text-white/60 border border-white/20",
+              ].join(" ")}
+            >
+              <span className={`w-2 h-2 rounded-full ${open ? "bg-green-400 animate-pulse" : "bg-white/40"}`} />
+              {open ? "Heute geöffnet" : "Aktuell geschlossen"}
             </div>
           </div>
         </div>

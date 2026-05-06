@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Trophy, User } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { useUserPoints } from "@/lib/hooks/useUserPoints";
 
@@ -19,14 +20,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[var(--color-border)] shadow-sm hidden md:block">
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-          <div className="w-10 h-10 rounded-lg bg-[var(--color-accent)] flex items-center justify-center">
-            <span className="text-white font-bold text-lg">S</span>
-          </div>
-          <div>
-            <div className="font-bold text-sm text-[var(--color-text)] leading-none">SCHWIND Bräu</div>
-            <div className="text-[10px] text-[var(--color-muted)]">Seit 1761</div>
-          </div>
+        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+          <Image src="/logo-dark.svg" alt="SCHWIND Bräu" width={120} height={74} priority />
         </Link>
 
         <nav className="flex items-center gap-1">
