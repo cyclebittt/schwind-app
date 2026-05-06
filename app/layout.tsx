@@ -13,24 +13,43 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: "SCHWIND Bräu",
-  description: "Seit 1761 – Bier mit Heimatgefühl aus dem Herzen der Region.",
+  description: "Seit 1761 – Bier mit Heimatgefühl. Treuepunkte, Events & Reservierungen.",
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "SCHWIND Bräu",
+    title: "Schwindbräu",
+  },
+  other: {
+    // Full-screen PWA on iOS
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F7F3EC",
+  // Cover the notch + home indicator area on iPhone
+  viewportFit: "cover",
+  // Prevent user zoom – feels more native
   width: "device-width",
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  // Status bar tints
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#120C00" },
+    { media: "(prefers-color-scheme: dark)",  color: "#120C00" },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" className={`${jakarta.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="de" className={`${jakarta.variable} ${geistMono.variable}`}>
+      {/* h-full + overflow-hidden enforced via globals.css on html/body */}
+      <body className="h-full overflow-hidden flex flex-col bg-[var(--color-bg)]">
+        {children}
+      </body>
     </html>
   );
 }

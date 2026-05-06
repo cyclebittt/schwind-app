@@ -43,21 +43,61 @@
 }
 
 /* ─────────────────────────────────────────────
-   Base
+   Base – App model (no browser-page scroll)
 ───────────────────────────────────────────── */
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+  /* Kill the grey flash on tap – biggest "website feel" culprit */
+  -webkit-tap-highlight-color: transparent;
+}
 
-html { height: 100%; font-size: 16px; }
+html {
+  height: 100%;
+  /* Lock the root – only inner containers scroll */
+  overflow: hidden;
+  overscroll-behavior: none;
+  font-size: 16px;
+  /* Cover the notch / home-indicator area */
+  padding:
+    env(safe-area-inset-top)
+    env(safe-area-inset-right)
+    0
+    env(safe-area-inset-left);
+}
 
 body {
+  height: 100%;
+  overflow: hidden;          /* body never scrolls like a webpage */
+  overscroll-behavior: none;
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans), "Plus Jakarta Sans", system-ui, sans-serif;
-  min-height: 100%;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent accidental text-select while scrolling */
+  -webkit-user-select: none;
+  user-select: none;
 }
+
+/* Re-enable selection where text is meant to be read */
+p, h1, h2, h3, span, li, td, input, textarea { -webkit-user-select: text; user-select: text; }
+
+/* ─────────────────────────────────────────────
+   App scroll container
+   Use class="app-scroll" on the scrollable main
+───────────────────────────────────────────── */
+.app-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;   /* bounce stays inside, no browser bounce */
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+}
+
+/* Hide scrollbar on mobile (app-like) */
+.app-scroll::-webkit-scrollbar { display: none; }
+.app-scroll { scrollbar-width: none; }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -68,6 +108,9 @@ body {
   outline-offset: 3px;
   border-radius: 6px;
 }
+
+/* Tap feedback for links and buttons */
+a:active, button:active { opacity: 0.75; }
 
 /* ─────────────────────────────────────────────
    Shadow system

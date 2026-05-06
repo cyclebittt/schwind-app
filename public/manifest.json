@@ -1,0 +1,41 @@
+{
+  "name": "SCHWIND Bräu",
+  "short_name": "Schwindbräu",
+  "description": "Treuepunkte, Events & Reservierungen – deine Stammgast-App",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#120C00",
+  "theme_color": "#120C00",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Treuepunkte",
+      "short_name": "Punkte",
+      "url": "/loyalty",
+      "description": "Meine Treuekarte öffnen"
+    },
+    {
+      "name": "Tisch reservieren",
+      "short_name": "Reservieren",
+      "url": "/reserve",
+      "description": "Tischreservierung"
+    },
+    {
+      "name": "Events",
+      "short_name": "Events",
+      "url": "/events",
+      "description": "Veranstaltungen & Führungen"
+    }
+  ]
+}

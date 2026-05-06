@@ -74,9 +74,9 @@ export default async function HomePage() {
   const hours = getTodayOpeningHours();
 
   return (
-    <>
+    <div className="flex flex-col h-full">
       <Navbar />
-      <main className="flex-1 pb-24 md:pb-0">
+      <main className="flex-1 app-scroll">
 
         {/* Hero */}
         <div className="relative bg-[#1A0E00] overflow-hidden">
@@ -225,8 +225,9 @@ export default async function HomePage() {
             </div>
           </section>
         </div>
+        <div className="h-24 md:h-0" />
       </main>
       <BottomNav />
-    </>
+    </div>
   );
 }
