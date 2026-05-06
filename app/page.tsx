@@ -206,9 +206,9 @@ export default async function HomePage() {
                 <MapPin className="w-4 h-4 text-[var(--color-accent)] mt-0.5 shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-[var(--color-text)]">SCHWIND Bräu</p>
-                  <p className="text-sm text-[var(--color-muted)]">Brauhaus Schwindbräu · Schwindbräustraße · Bayern</p>
+                  <p className="text-sm text-[var(--color-muted)]">Am Streitberg 28 · 63906 Erlenbach am Main</p>
                   <a
-                    href="https://maps.google.com/?q=Schwindbräu+Bayern"
+                    href="https://maps.google.com/?q=Am+Streitberg+28,+63906+Erlenbach+am+Main"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-[var(--color-accent)] hover:underline mt-0.5 inline-block"
@@ -226,8 +226,8 @@ export default async function HomePage() {
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[var(--color-accent)] shrink-0" />
-                <a href="tel:+4900000000" className="text-sm text-[var(--color-accent)] hover:underline">
-                  Anrufen
+                <a href="tel:+4916095757167" className="text-sm text-[var(--color-accent)] hover:underline">
+                  0160 95757167
                 </a>
               </div>
             </div>
