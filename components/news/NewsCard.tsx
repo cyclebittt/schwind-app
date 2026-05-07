@@ -20,9 +20,9 @@ const typeLabels: Record<NewsPost["type"], string> = {
 
 const typeColors: Record<NewsPost["type"], string> = {
   general: "bg-[var(--color-surface-2)] text-[var(--color-muted)]",
-  event:   "bg-amber-100 text-amber-800",
-  special: "bg-green-50 text-green-800",
-  sport:   "bg-blue-50 text-blue-800",
+  event:   "bg-[var(--color-deep)]/8 text-[var(--color-deep)]",
+  special: "bg-green-50 text-green-700",
+  sport:   "bg-blue-50 text-blue-700",
 };
 
 export function NewsCard({ post }: { post: NewsPost }) {
@@ -36,7 +36,7 @@ export function NewsCard({ post }: { post: NewsPost }) {
       <div className="p-4 space-y-2">
         <div className="flex items-center gap-2 flex-wrap">
           {post.pinned && (
-            <span className="text-xs font-semibold bg-[var(--color-accent)] text-white px-2 py-0.5 rounded-md">
+            <span className="text-xs font-semibold bg-[var(--color-deep)] text-white px-2 py-0.5 rounded-md tracking-wide">
               Angeheftet
             </span>
           )}

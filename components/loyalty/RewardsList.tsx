@@ -62,7 +62,7 @@ export function RewardsList({ rewards, userPoints, userId, onRedeem }: RewardsLi
             <div className="space-y-1">
               <div className="h-1.5 bg-[var(--color-surface-2)] rounded-full overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${canRedeem ? "bg-[var(--color-accent)]" : "bg-amber-300"}`}
+                  className={`h-full rounded-full transition-all duration-500 ${canRedeem ? "bg-[var(--color-accent)]" : "bg-[var(--color-surface-3)]"}`}
                   style={{ width: `${progress}%` }}
                 />
               </div>

@@ -12,18 +12,16 @@ export function HomeLoyaltyWidget() {
   // Not logged in → generic teaser
   if (!loading && !profile) {
     return (
-      <section className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-5">
-        <div className="flex items-start gap-4">
-          <div className="text-3xl">🍺</div>
-          <div className="space-y-1">
-            <h2 className="font-bold text-[var(--color-text)]">Sammle Punkte mit jedem Bier</h2>
-            <p className="text-sm text-[var(--color-muted)]">
-              Vom Stammgast zum Braumeister: Jeder Bierkauf bringt Treuepunkte. Löse sie gegen Freigetränke, Brauerei-Touren und mehr ein.
-            </p>
-            <Link href="/login" className="inline-block mt-2 text-sm font-semibold text-[var(--color-accent)] hover:underline">
-              Jetzt registrieren →
-            </Link>
-          </div>
+      <section className="bg-[var(--color-deep)] rounded-2xl p-5">
+        <div className="space-y-2">
+          <p className="text-[10px] font-semibold tracking-[0.18em] uppercase text-white/40">SCHWIND AM DALBERG</p>
+          <h2 className="font-bold text-white">Treuepunkte sammeln</h2>
+          <p className="text-sm text-white/60">
+            Vom Stammgast zum Braumeister – jeder Kauf bringt Punkte. Löse sie gegen Freigetränke, Führungen und mehr ein.
+          </p>
+          <Link href="/login" className="inline-block mt-2 text-sm font-semibold text-white/90 underline underline-offset-2">
+            Jetzt registrieren
+          </Link>
         </div>
       </section>
     );
@@ -43,7 +41,7 @@ export function HomeLoyaltyWidget() {
     <section className="space-y-3">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-[var(--color-text)]">Meine Mitgliedskarte</h2>
-        <Link href="/loyalty" className="text-sm text-[var(--color-accent)] font-medium hover:underline flex items-center gap-1">
+        <Link href="/loyalty" className="text-sm text-[var(--color-muted)] font-medium hover:text-[var(--color-text)] flex items-center gap-1">
           Details <ChevronRight className="w-3.5 h-3.5" />
         </Link>
       </div>

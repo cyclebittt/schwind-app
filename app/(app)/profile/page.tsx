@@ -64,9 +64,9 @@ export default function ProfilePage() {
       </div>
 
       {profile && (
-        <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-5">
-          <p className="text-sm text-[var(--color-muted)]">Treuepunkte</p>
-          <p className="text-4xl font-bold font-mono text-[var(--color-accent)] mt-1">{profile.points}</p>
+        <div className="bg-[var(--color-deep)] rounded-xl p-5">
+          <p className="text-xs font-semibold tracking-widest uppercase text-white/40">Treuepunkte</p>
+          <p className="text-4xl font-bold font-mono text-white mt-1">{profile.points}</p>
         </div>
       )}
 

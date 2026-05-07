@@ -10,31 +10,31 @@ const levelConfig: Record<Level, {
   badge: string;
   badgeText: string;
   bar: string;
-  emoji: string;
+  label: string;
 }> = {
   bronze: {
-    bg:        "from-[#2C1A00] via-[#3D2500] to-[#1A0E00]",
-    shimmer:   "from-amber-900/20 to-orange-700/10",
-    badge:     "bg-amber-900/50 border-amber-600/40 text-amber-300",
+    bg:        "from-[#1C2836] via-[#243040] to-[#141E2B]",
+    shimmer:   "from-white/10 to-white/5",
+    badge:     "bg-white/10 border-white/20 text-white/70",
     badgeText: "Stammgast",
-    bar:       "from-amber-500 to-orange-400",
-    emoji:     "🥉",
+    bar:       "from-[#8B1A2A] to-[#B52236]",
+    label:     "STAMMGAST",
   },
   silver: {
-    bg:        "from-[#1C2028] via-[#2A3040] to-[#111820]",
-    shimmer:   "from-slate-400/20 to-blue-400/10",
-    badge:     "bg-slate-700/60 border-slate-400/40 text-slate-200",
+    bg:        "from-[#2A3244] via-[#313B50] to-[#1E2838]",
+    shimmer:   "from-white/15 to-white/5",
+    badge:     "bg-white/10 border-white/25 text-white/80",
     badgeText: "Bierkenner",
-    bar:       "from-slate-300 to-blue-200",
-    emoji:     "🥈",
+    bar:       "from-slate-300 to-slate-100",
+    label:     "BIERKENNER",
   },
   gold: {
-    bg:        "from-[#2C1F00] via-[#3D2C00] to-[#1A1200]",
-    shimmer:   "from-yellow-400/30 to-amber-300/15",
-    badge:     "bg-yellow-800/50 border-yellow-500/40 text-yellow-200",
+    bg:        "from-[#1C2836] via-[#2C3E56] to-[#141E2B]",
+    shimmer:   "from-white/20 to-white/8",
+    badge:     "bg-white/15 border-white/30 text-white/90",
     badgeText: "Braumeister",
-    bar:       "from-yellow-300 to-amber-200",
-    emoji:     "🏆",
+    bar:       "from-white to-white/70",
+    label:     "BRAUMEISTER",
   },
 };
 
@@ -77,10 +77,10 @@ export function MemberCard({ points, level, name, compact = false, userId }: Mem
           SCHWIND Bräu
         </span>
         <span className={[
-          "flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full border",
+          "flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full border tracking-wider",
           cfg.badge,
         ].join(" ")}>
-          {cfg.emoji} {cfg.badgeText}
+          {cfg.label}
         </span>
       </div>
 
@@ -121,8 +121,8 @@ export function MemberCard({ points, level, name, compact = false, userId }: Mem
           </div>
         </div>
       ) : (
-        <p className="relative text-[11px] text-yellow-300/70 font-medium">
-          🏆 Höchstes Level erreicht
+        <p className="relative text-[11px] text-white/50 font-medium tracking-wide">
+          Höchstes Level erreicht
         </p>
       )}
 

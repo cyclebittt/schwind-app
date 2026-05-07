@@ -38,8 +38,8 @@ export const viewport: Viewport = {
   userScalable: false,
   // Status bar tints
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#120C00" },
-    { media: "(prefers-color-scheme: dark)",  color: "#120C00" },
+    { media: "(prefers-color-scheme: light)", color: "#243040" },
+    { media: "(prefers-color-scheme: dark)",  color: "#243040" },
   ],
 };
 

@@ -1,34 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  /* Schwindbräu – warme Amber-Brauerei-Palette */
-  --color-bg:           #F5F0E8;
+  /* ─── Neutral Base (clean, app-like) ─── */
+  --color-bg:           #F6F7F9;
   --color-surface:      #FFFFFF;
-  --color-surface-2:    #EDE7D8;
-  --color-surface-3:    #E4DCC8;
-  --color-border:       #D6CCBA;
-  --color-border-light: #E8E1D0;
+  --color-surface-2:    #F2F3F6;
+  --color-surface-3:    #E8EAEE;
+  --color-border:       #E3E5EA;
+  --color-border-light: #EDEEF2;
 
-  /* Hauptakzent: Schwindbräu Gold */
-  --color-accent:       #C8920A;
-  --color-accent-hover: #A87508;
-  --color-accent-light: #FDF3DC;
+  /* ─── Primary Accent: AM DALBERG Crimson ─── */
+  --color-accent:       #8B1A2A;
+  --color-accent-hover: #6F1421;
+  --color-accent-light: #FDF2F3;
 
-  /* Erweiterung: Tiefes Braunschwarz für Premium-Flächen */
-  --color-deep:         #120C00;
-  --color-deep-2:       #1E1400;
+  /* ─── Dark surfaces: SCHWIND Navy ─── */
+  --color-deep:         #243040;
+  --color-deep-2:       #1C2836;
 
-  /* Semantic */
-  --color-text:         #1A1408;
-  --color-muted:        #6B5F4A;
-  --color-muted-light:  #9B8E77;
-  --color-success:      #1E6E38;
-  --color-warning:      #C8820A;
-  --color-danger:       #A83000;
+  /* ─── Text ─── */
+  --color-text:         #111827;
+  --color-muted:        #6B7280;
+  --color-muted-light:  #9CA3AF;
 
-  /* SCHWIND AM DALBERG – Markenfarben aus dem PDF */
-  --color-brand:     #243040;   /* SCHWIND navy */
-  --color-brand-red: #8B1A2A;   /* AM DALBERG crimson */
+  /* ─── Semantic ─── */
+  --color-success:      #16A34A;
+  --color-warning:      #D97706;
+  --color-danger:       #DC2626;
+
+  /* ─── Brand anchors (PDF) ─── */
+  --color-brand:        #243040;   /* SCHWIND navy */
+  --color-brand-red:    #8B1A2A;   /* AM DALBERG crimson */
 }
 
 @theme inline {
@@ -53,17 +55,14 @@
 ───────────────────────────────────────────── */
 * {
   box-sizing: border-box;
-  /* Kill the grey flash on tap – biggest "website feel" culprit */
   -webkit-tap-highlight-color: transparent;
 }
 
 html {
   height: 100%;
-  /* Lock the root – only inner containers scroll */
   overflow: hidden;
   overscroll-behavior: none;
   font-size: 16px;
-  /* Cover the notch / home-indicator area */
   padding:
     env(safe-area-inset-top)
     env(safe-area-inset-right)
@@ -73,7 +72,7 @@ html {
 
 body {
   height: 100%;
-  overflow: hidden;          /* body never scrolls like a webpage */
+  overflow: hidden;
   overscroll-behavior: none;
   background-color: var(--color-bg);
   color: var(--color-text);
@@ -81,7 +80,6 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Prevent accidental text-select while scrolling */
   -webkit-user-select: none;
   user-select: none;
 }
@@ -91,17 +89,15 @@ p, h1, h2, h3, span, li, td, input, textarea { -webkit-user-select: text; user-s
 
 /* ─────────────────────────────────────────────
    App scroll container
-   Use class="app-scroll" on the scrollable main
 ───────────────────────────────────────────── */
 .app-scroll {
   overflow-y: auto;
   overflow-x: hidden;
-  overscroll-behavior-y: contain;   /* bounce stays inside, no browser bounce */
+  overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
   height: 100%;
 }
 
-/* Hide scrollbar on mobile (app-like) */
 .app-scroll::-webkit-scrollbar { display: none; }
 .app-scroll { scrollbar-width: none; }
 
@@ -115,34 +111,30 @@ p, h1, h2, h3, span, li, td, input, textarea { -webkit-user-select: text; user-s
   border-radius: 6px;
 }
 
-/* Tap feedback for links and buttons */
-a:active, button:active { opacity: 0.75; }
+a:active, button:active { opacity: 0.78; }
 
 /* ─────────────────────────────────────────────
    Shadow system
 ───────────────────────────────────────────── */
 .card-shadow {
   box-shadow:
-    0 1px 2px rgba(28, 20, 8, 0.06),
-    0 3px 10px rgba(28, 20, 8, 0.07),
-    inset 0 1px 0 rgba(255,255,255,0.8);
+    0 1px 2px rgba(17, 24, 39, 0.05),
+    0 2px 8px rgba(17, 24, 39, 0.06);
 }
 .card-shadow-md {
   box-shadow:
-    0 2px 6px rgba(28, 20, 8, 0.08),
-    0 8px 24px rgba(28, 20, 8, 0.10),
-    inset 0 1px 0 rgba(255,255,255,0.9);
+    0 2px 4px rgba(17, 24, 39, 0.06),
+    0 6px 20px rgba(17, 24, 39, 0.08);
 }
 .card-shadow-lg {
   box-shadow:
-    0 4px 12px rgba(28, 20, 8, 0.10),
-    0 16px 40px rgba(28, 20, 8, 0.14),
-    inset 0 1px 0 rgba(255,255,255,0.9);
+    0 4px 10px rgba(17, 24, 39, 0.08),
+    0 14px 36px rgba(17, 24, 39, 0.12);
 }
 .float-shadow {
   box-shadow:
-    0 8px 20px rgba(28, 20, 8, 0.12),
-    0 24px 60px rgba(28, 20, 8, 0.16);
+    0 8px 20px rgba(17, 24, 39, 0.10),
+    0 24px 60px rgba(17, 24, 39, 0.14);
 }
 
 /* ─────────────────────────────────────────────
@@ -154,8 +146,8 @@ a:active, button:active { opacity: 0.75; }
 .card-lift:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 4px 16px rgba(28, 20, 8, 0.10),
-    0 12px 32px rgba(28, 20, 8, 0.12);
+    0 4px 12px rgba(17, 24, 39, 0.08),
+    0 12px 28px rgba(17, 24, 39, 0.10);
 }
 .card-lift:active {
   transform: translateY(0);
@@ -164,9 +156,9 @@ a:active, button:active { opacity: 0.75; }
 /* ─────────────────────────────────────────────
    Animations
 ───────────────────────────────────────────── */
-@keyframes warm-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(200, 146, 10, 0.40); }
-  50%       { box-shadow: 0 0 0 10px rgba(200, 146, 10, 0); }
+@keyframes brand-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(139, 26, 42, 0.35); }
+  50%       { box-shadow: 0 0 0 10px rgba(139, 26, 42, 0); }
 }
 @keyframes shimmer {
   from { background-position: -400px 0; }
@@ -181,8 +173,10 @@ a:active, button:active { opacity: 0.75; }
   to   { opacity: 1; transform: scale(1); }
 }
 
-.gold-glow      { animation: warm-pulse 2.2s ease-in-out infinite; }
-.animate-fade-up { animation: fade-up 320ms ease both; }
+.brand-glow       { animation: brand-pulse 2.2s ease-in-out infinite; }
+/* legacy alias kept so existing references don't break */
+.gold-glow        { animation: brand-pulse 2.2s ease-in-out infinite; }
+.animate-fade-up  { animation: fade-up 320ms ease both; }
 .animate-scale-in { animation: scale-in 220ms ease both; }
 
 .skeleton {

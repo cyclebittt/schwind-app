@@ -18,9 +18,9 @@ export function InviteFriend({ userId }: { userId: string }) {
   }
 
   return (
-    <section className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-5 space-y-3">
+    <section className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 space-y-3 card-shadow">
       <div className="flex items-center gap-2">
-        <Users className="w-4 h-4 text-[var(--color-accent)]" />
+        <Users className="w-4 h-4 text-[var(--color-muted)]" />
         <h2 className="font-bold text-[var(--color-text)] text-sm">Freund einladen – 20 Punkte sichern</h2>
       </div>
       <p className="text-xs text-[var(--color-muted)]">

@@ -71,12 +71,12 @@ export function DailyCheckIn() {
 
   if (status === "done") {
     return (
-      <div className="flex items-center gap-3 bg-[var(--color-accent-light)] border border-amber-200 rounded-2xl px-5 py-4 animate-scale-in">
+      <div className="flex items-center gap-3 bg-[var(--color-accent-light)] border border-[var(--color-accent)]/20 rounded-2xl px-5 py-4 animate-scale-in">
         <div className="w-10 h-10 rounded-full bg-[var(--color-accent)] flex items-center justify-center shrink-0">
           <Zap className="w-5 h-5 text-white" />
         </div>
         <div>
-          <p className="font-bold text-sm text-[var(--color-text)]">+{CHECK_IN_POINTS} Punkte gutgeschrieben! 🎉</p>
+          <p className="font-bold text-sm text-[var(--color-text)]">+{CHECK_IN_POINTS} Punkte gutgeschrieben</p>
           <p className="text-xs text-[var(--color-muted)]">Morgen wieder einloggen für mehr Punkte</p>
         </div>
       </div>
@@ -89,14 +89,14 @@ export function DailyCheckIn() {
       disabled={status === "loading"}
       className="w-full flex items-center gap-3 bg-[var(--color-deep)] hover:bg-[var(--color-deep-2)] active:scale-[0.98] text-white rounded-2xl px-5 py-4 card-shadow transition-all duration-150 group"
     >
-      <div className="w-10 h-10 rounded-full bg-[var(--color-accent)] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+      <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center shrink-0 group-hover:bg-white/20 transition-colors">
         <Zap className="w-5 h-5 text-white" />
       </div>
       <div className="flex-1 text-left">
         <p className="font-bold text-sm">Jetzt einchecken</p>
-        <p className="text-xs text-white/60">Täglich +{CHECK_IN_POINTS} Treuepunkte sichern</p>
+        <p className="text-xs text-white/55">Täglich +{CHECK_IN_POINTS} Treuepunkte sichern</p>
       </div>
-      <span className="font-black text-lg text-[var(--color-accent)]">+{CHECK_IN_POINTS}</span>
+      <span className="font-black text-base text-white/80">+{CHECK_IN_POINTS}</span>
     </button>
   );
 }
