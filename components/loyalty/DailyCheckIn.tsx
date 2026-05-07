@@ -6,24 +6,20 @@ import { useUserPoints } from "@/lib/hooks/useUserPoints";
 
 const CHECK_IN_POINTS = 5;
 
-// Generate 7-day streak display (Mon–today)
+const DAY_LABELS = ["M", "D", "M", "D", "F", "S", "S"];
+
 function buildWeekStamps(todayCheckedIn: boolean) {
   const today = new Date();
-  const dayOfWeek = today.getDay(); // 0=Sun
-  // Shift so week starts Monday
+  const dayOfWeek = today.getDay();
   const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-  const stamps = [];
-  for (let i = 0; i < 7; i++) {
+  return Array.from({ length: 7 }, (_, i) => {
     const d = new Date(today);
     d.setDate(today.getDate() + mondayOffset + i);
     const isToday = d.toDateString() === today.toDateString();
     const isPast = d < today && !isToday;
-    stamps.push({ date: d, isToday, isPast });
-  }
-  return stamps;
+    return { isToday, isPast };
+  });
 }
-
-const DAY_LABELS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
 export function DailyCheckIn() {
   const { profile } = useUserPoints();
@@ -31,19 +27,18 @@ export function DailyCheckIn() {
 
   useEffect(() => {
     if (!profile || !process.env.NEXT_PUBLIC_SUPABASE_URL) return;
-    async function checkToday() {
+    (async () => {
       const supabase = createClient();
       const today = new Date().toISOString().slice(0, 10);
       const { data } = await supabase
         .from("point_transactions")
         .select("id")
-        .eq("user_id", profile!.id)
+        .eq("user_id", profile.id)
         .eq("reason", "Täglicher Check-in")
         .gte("created_at", `${today}T00:00:00Z`)
         .limit(1);
       if (data && data.length > 0) setStatus("already");
-    }
-    checkToday();
+    })();
   }, [profile]);
 
   if (!profile) return null;
@@ -71,115 +66,196 @@ export function DailyCheckIn() {
   const checkedToday = status === "already" || status === "done";
   const stamps = buildWeekStamps(checkedToday);
 
+  // Count consecutive days done (streak)
+  const streak = stamps.filter((s, i) => i < 5 && (s.isPast || (s.isToday && checkedToday))).length
+    + (checkedToday ? 1 : 0);
+  const streakCount = Math.min(streak, 7);
+
+  const MILESTONES = [
+    { count: 7,   label: "Wochen-Streak",         sub: `Noch ${Math.max(7 - streakCount, 0)} Tage · +25 Bonuspunkte`, current: streakCount, max: 7 },
+    { count: 30,  label: "Monats-Stammtisch",      sub: "+200 Pkt. + Bockbier-Probe",                                  current: streakCount, max: 30 },
+    { count: 100, label: "100 Tage Stammgast",     sub: "Eingravierter Masskrug auf Lebenszeit",                       current: streakCount, max: 100 },
+  ];
+
   return (
-    <div
-      className="bg-[var(--color-surface)] rounded-2xl p-4"
-      style={{ boxShadow: "0 1px 3px rgba(26,24,20,0.06), 0 4px 12px rgba(26,24,20,0.05)" }}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <p className="section-label">Täglicher Check-in</p>
-          <p className="text-xs text-[var(--color-muted)] mt-0.5">+{CHECK_IN_POINTS} Punkte täglich</p>
-        </div>
-        {checkedToday && (
-          <span
-            className="text-[10px] px-2.5 py-1 rounded-full"
+    <div className="flex flex-col gap-3">
+
+      {/* ── Streak hero card ── */}
+      <div
+        style={{
+          background: "linear-gradient(150deg, #FBF9F4 0%, #F0E6CC 100%)",
+          borderRadius: 22,
+          padding: 22,
+          border: "1px solid rgba(200,146,10,0.20)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Top row: streak count + flame circle */}
+        <div className="flex items-flex-end justify-between mb-5">
+          <div>
+            <p
+              style={{
+                margin: 0,
+                fontFamily: "var(--font-narrow), 'Archivo Narrow', sans-serif",
+                fontWeight: 700,
+                fontSize: 11,
+                letterSpacing: "0.24em",
+                textTransform: "uppercase",
+                color: "var(--gold-2)",
+              }}
+            >
+              Aktuelle Serie
+            </p>
+            <p className="num-display" style={{ fontSize: 56, color: "var(--navy)", marginTop: 4 }}>
+              {streakCount}
+              <span style={{ fontSize: 18, color: "var(--ink-2)", fontWeight: 700, marginLeft: 6 }}>
+                Tage
+              </span>
+            </p>
+          </div>
+          <div
             style={{
-              fontFamily: "var(--font-archivo-narrow), sans-serif",
-              fontWeight: 700,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              background: "rgba(22,163,74,0.10)",
-              color: "#16A34A",
-              border: "1px solid rgba(22,163,74,0.2)",
+              width: 56, height: 56,
+              borderRadius: "50%",
+              background: "var(--navy)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0,
             }}
           >
-            Erledigt
-          </span>
-        )}
-      </div>
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="var(--gold)">
+              <path d="M12 2c0 4-4 5-4 9a4 4 0 0 0 8 0c0-4-4-5-4-9zm-3 13a3 3 0 1 0 6 0c0 2.5-1.5 4-3 4s-3-1.5-3-4z"/>
+            </svg>
+          </div>
+        </div>
 
-      {/* Stamp row */}
-      <div className="grid grid-cols-7 gap-1.5 mb-3">
-        {stamps.map((s, i) => {
-          const done = s.isPast || (s.isToday && checkedToday);
-          const todayPending = s.isToday && !checkedToday;
-          return (
-            <div key={i} className="flex flex-col items-center gap-1">
+        {/* Week label */}
+        <p
+          style={{
+            margin: "0 0 8px",
+            fontFamily: "var(--font-narrow), 'Archivo Narrow', sans-serif",
+            fontWeight: 700, fontSize: 10,
+            letterSpacing: "0.2em", textTransform: "uppercase",
+            color: "var(--muted)",
+          }}
+        >
+          Diese Woche
+        </p>
+
+        {/* Stamp grid */}
+        <div className="stamps">
+          {stamps.map((s, i) => {
+            const done = s.isPast || (s.isToday && checkedToday);
+            const todayPending = s.isToday && !checkedToday;
+            return (
               <div
-                className="w-full aspect-square rounded-xl flex items-center justify-center text-[11px]"
-                style={{
-                  fontFamily: "var(--font-archivo-narrow), sans-serif",
-                  fontWeight: 700,
-                  ...(done
-                    ? {
-                        background: "var(--color-deep-2, #1C2836)",
-                        color: "var(--color-gold)",
-                        boxShadow: "0 2px 6px -2px rgba(15,24,34,0.35)",
-                      }
-                    : todayPending
-                    ? {
-                        background: "var(--color-surface)",
-                        color: "var(--color-accent)",
-                        border: "2px solid var(--color-accent)",
-                      }
-                    : {
-                        background: "var(--color-paper, #FBF9F4)",
-                        color: "var(--color-muted-light)",
-                        border: "1.5px dashed rgba(26,24,20,0.18)",
-                      }),
-                }}
+                key={i}
+                className={`stamp${done ? " done" : todayPending ? " today" : ""}`}
               >
-                {done ? "✓" : todayPending ? "!" : "·"}
+                <span>{DAY_LABELS[i]}</span>
+                {done && <span style={{ fontSize: 13, marginTop: 2 }}>✓</span>}
+                {todayPending && (
+                  <span style={{ fontSize: 10, marginTop: 2, fontWeight: 800 }}>+5</span>
+                )}
               </div>
-              <span
-                className="text-[9px]"
-                style={{
-                  fontFamily: "var(--font-archivo-narrow), sans-serif",
-                  fontWeight: 600,
-                  letterSpacing: "0.08em",
-                  color: s.isToday ? "var(--color-accent)" : "var(--color-muted-light)",
-                }}
-              >
-                {DAY_LABELS[i]}
-              </span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
-      {/* Action button */}
+      {/* ── Today's reward card ── */}
+      <div
+        className="bg-white rounded-[18px] flex items-center gap-4 card-shadow"
+        style={{ padding: 18 }}
+      >
+        <div
+          style={{
+            width: 56, height: 56,
+            borderRadius: 16,
+            background: "var(--crimson)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexShrink: 0, color: "#fff",
+          }}
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M12 2l2.4 7H21l-5.8 4.2 2.2 6.8L12 16l-5.4 4 2.2-6.8L3 9h6.6z"/>
+          </svg>
+        </div>
+        <div className="flex-1">
+          <p className="eyebrow" style={{ margin: "0 0 2px" }}>
+            Heute · Tag {streakCount || 1}
+          </p>
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-display), 'Archivo', sans-serif",
+              fontWeight: 800, fontSize: 17,
+              color: "var(--ink)", letterSpacing: "-0.01em",
+            }}
+          >
+            {checkedToday ? `+${CHECK_IN_POINTS} Punkte gesichert` : `+${CHECK_IN_POINTS} Punkte verfügbar`}
+          </p>
+          <p style={{ margin: "2px 0 0", fontSize: 12, color: "var(--muted)" }}>
+            {checkedToday
+              ? "Morgen verdoppelt sich der Bonus auf +10."
+              : "Check-in jetzt und sichere deine Punkte."}
+          </p>
+        </div>
+      </div>
+
+      {/* ── Check-in button ── */}
       {!checkedToday && (
         <button
           onClick={handleCheckIn}
           disabled={status === "loading"}
           className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all active:scale-[0.98]"
           style={{
-            fontFamily: "var(--font-archivo), 'Archivo', sans-serif",
+            fontFamily: "var(--font-display), 'Archivo', sans-serif",
             fontWeight: 700,
             background: "linear-gradient(160deg, #243040 0%, #1C2836 100%)",
             boxShadow: "0 4px 12px -4px rgba(15,24,34,0.35)",
+            border: "none", cursor: "pointer",
           }}
         >
           {status === "loading" ? "Wird eingetragen…" : `Jetzt einchecken · +${CHECK_IN_POINTS} Pkt.`}
         </button>
       )}
 
-      {status === "done" && (
-        <div
-          className="text-xs text-center py-2 rounded-xl"
-          style={{
-            fontFamily: "var(--font-archivo-narrow), sans-serif",
-            fontWeight: 700,
-            letterSpacing: "0.1em",
-            background: "rgba(22,163,74,0.08)",
-            color: "#16A34A",
-          }}
-        >
-          +{CHECK_IN_POINTS} Punkte gutgeschrieben
+      {/* ── Milestones ── */}
+      <div>
+        <p className="section-label" style={{ padding: "4px 0 8px" }}>Meilensteine</p>
+        <div className="ios-card">
+          {MILESTONES.map((m, i) => (
+            <div key={i} className="ios-row">
+              <div
+                className="icon-badge gold"
+                style={{
+                  width: 36, height: 36, borderRadius: 10,
+                  fontFamily: "var(--font-narrow), sans-serif",
+                  fontWeight: 800, fontSize: 13,
+                  color: "var(--gold-2)",
+                }}
+              >
+                {m.count}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-sm" style={{ color: "var(--ink)", margin: 0 }}>{m.label}</p>
+                <p className="text-[11px] mt-0.5" style={{ color: "var(--muted)", margin: 0 }}>{m.sub}</p>
+              </div>
+              <span
+                style={{
+                  fontFamily: "var(--font-display), sans-serif",
+                  fontWeight: 800, fontSize: 13,
+                  color: m.current >= m.max ? "var(--gold-2)" : "var(--ios-tertiary)",
+                  flexShrink: 0,
+                }}
+              >
+                {m.current} / {m.max}
+              </span>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
