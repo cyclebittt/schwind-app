@@ -21,7 +21,7 @@ export default async function LoyaltyPage() {
   if (!user) redirect("/login");
 
   const [profileRes, rewardsRes, txRes] = await Promise.all([
-    supabase.from("profiles").select("*").eq("id", user.id).single(),
+    supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
     supabase.from("rewards").select("*").order("points_required"),
     supabase
       .from("point_transactions")
@@ -70,7 +70,7 @@ export default async function LoyaltyPage() {
         <section>
           <h2 className="text-xs text-[var(--color-muted)] uppercase tracking-wider mb-3">Deine Vorteile</h2>
           <ul className="space-y-2">
-            {levelBenefits[profile!.level].map((b) => (
+            {levelBenefits[profile?.level ?? ""]?.map((b) => (
               <li key={b} className="flex items-center gap-2 text-sm text-[var(--color-text)]">
                 <span className="text-[var(--color-accent)]">✓</span> {b}
               </li>
@@ -85,12 +85,12 @@ export default async function LoyaltyPage() {
         <div className="space-y-2">
           {BEER_TYPES.map((beer) => (
             <div key={beer.id} className="flex items-center justify-between text-sm">
-              <span className="text-[var(--color-text)]">🍺 {beer.name}</span>
+              <span className="text-[var(--color-text)]">{beer.name}</span>
               <span className="font-mono font-semibold text-[var(--color-accent)]">+{beer.points} Pkt.</span>
             </div>
           ))}
           <div className="flex items-center justify-between text-sm pt-2 border-t border-[var(--color-border)]">
-            <span className="text-[var(--color-text)]">📅 Tischreservierung</span>
+            <span className="text-[var(--color-text)]">Tischreservierung</span>
             <span className="font-mono font-semibold text-[var(--color-accent)]">+8 Pkt.</span>
           </div>
         </div>
