@@ -1,12 +1,19 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const BEER_TYPES = [
-  { id: "helles",      name: "Schwindbräu Helles (0,5l)",   points: 3 },
-  { id: "weissbier",   name: "Schwindbräu Weißbier (0,5l)", points: 3 },
-  { id: "spezial",     name: "Schwindbräu Spezial (0,5l)",  points: 5 },
-  { id: "saisonbier",  name: "Saisonbier",                  points: 5 },
-  { id: "radler",      name: "Radler (0,5l)",               points: 2 },
-  { id: "alkoholfrei", name: "Alkoholfrei (0,5l)",          points: 2 },
+  { id: "helles",        name: "Helles (0,3l)",             points: 2 },
+  { id: "helles_05",     name: "Helles (0,5l)",             points: 3 },
+  { id: "helles_trüb",   name: "Helles naturtrüb (0,5l)",   points: 3 },
+  { id: "export",        name: "Export (0,5l)",              points: 3 },
+  { id: "pilsner",       name: "Pilsner (0,4l)",            points: 3 },
+  { id: "dunkel",        name: "Dunkel (0,5l)",              points: 3 },
+  { id: "jubilaeum",     name: "Jubiläumsbier 1761 (0,5l)", points: 4 },
+  { id: "saison",        name: "Sommerhalbe SAISON (0,5l)", points: 4 },
+  { id: "weizen",        name: "Hefeweizen (0,5l)",         points: 3 },
+  { id: "rotgold",       name: "Rotgold Flasche (0,5l)",    points: 3 },
+  { id: "radler",        name: "MAIN Radler (0,33l)",       points: 2 },
+  { id: "alkoholfrei",   name: "ZERO,33 alkoholfrei",       points: 2 },
+  { id: "bierflight",    name: "Bierflight 4×0,1l",         points: 5 },
 ] as const;
 
 export type BeerTypeId = typeof BEER_TYPES[number]["id"];

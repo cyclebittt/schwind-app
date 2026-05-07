@@ -25,6 +25,10 @@
   --color-success:      #1E6E38;
   --color-warning:      #C8820A;
   --color-danger:       #A83000;
+
+  /* SCHWIND AM DALBERG – Markenfarben aus dem PDF */
+  --color-brand:     #243040;   /* SCHWIND navy */
+  --color-brand-red: #8B1A2A;   /* AM DALBERG crimson */
 }
 
 @theme inline {
@@ -38,6 +42,8 @@
   --color-success:      var(--color-success);
   --color-warning:      var(--color-warning);
   --color-danger:       var(--color-danger);
+  --color-brand:        var(--color-brand);
+  --color-brand-red:    var(--color-brand-red);
   --font-sans:          var(--font-jakarta);
   --font-mono:          var(--font-geist-mono);
 }
