@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,6 +15,12 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // Show error passed from auth callback (e.g. expired confirmation link)
+  useEffect(() => {
+    const cbError = searchParams.get("error");
+    if (cbError) setError(cbError);
+  }, [searchParams]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,20 +34,31 @@ export default function LoginPage() {
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { name } },
+          options: {
+            data: { name },
+            // Make sure the confirmation link comes back to our callback route
+            emailRedirectTo: `${location.origin}/auth/callback`,
+          },
         });
         if (error) throw error;
-        setSuccess("Konto erstellt! Bitte bestätige deine E-Mail-Adresse.");
+        setSuccess("Konto erstellt! Bitte bestätige deine E-Mail-Adresse und melde dich dann an.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        // router.refresh() forces Next.js to re-fetch all server components
-        // so the session is visible on the homepage and all other pages
-        router.refresh();
-        router.push("/");
+        // Full page reload — bypasses Next.js Router Cache entirely,
+        // guarantees the server reads the fresh auth cookie
+        window.location.href = "/";
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Ein Fehler ist aufgetreten.");
+      const msg = err instanceof Error ? err.message : "Ein Fehler ist aufgetreten.";
+      // Translate common Supabase error messages to German
+      if (msg.includes("Email not confirmed")) {
+        setError("E-Mail noch nicht bestätigt. Bitte prüfe deinen Posteingang.");
+      } else if (msg.includes("Invalid login credentials")) {
+        setError("E-Mail oder Passwort ist falsch.");
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
@@ -103,8 +120,16 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && <p className="text-sm text-[var(--color-danger)] bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
-          {success && <p className="text-sm text-[var(--color-success)] bg-green-50 border border-green-200 rounded-lg px-3 py-2">{success}</p>}
+          {error && (
+            <p className="text-sm text-[var(--color-danger)] bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              {error}
+            </p>
+          )}
+          {success && (
+            <p className="text-sm text-[var(--color-success)] bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+              {success}
+            </p>
+          )}
 
           <Button type="submit" loading={loading} className="w-full">
             {mode === "login" ? "Anmelden" : "Konto erstellen"}
@@ -113,14 +138,22 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-[var(--color-muted)]">
           {mode === "login" ? (
-            <>Noch kein Konto?{" "}
-              <button onClick={() => setMode("register")} className="text-[var(--color-accent)] font-semibold hover:underline">
+            <>
+              Noch kein Konto?{" "}
+              <button
+                onClick={() => { setMode("register"); setError(""); setSuccess(""); }}
+                className="text-[var(--color-accent)] font-semibold hover:underline"
+              >
                 Registrieren
               </button>
             </>
           ) : (
-            <>Schon registriert?{" "}
-              <button onClick={() => setMode("login")} className="text-[var(--color-accent)] font-semibold hover:underline">
+            <>
+              Schon registriert?{" "}
+              <button
+                onClick={() => { setMode("login"); setError(""); setSuccess(""); }}
+                className="text-[var(--color-accent)] font-semibold hover:underline"
+              >
                 Anmelden
               </button>
             </>
