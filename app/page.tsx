@@ -92,13 +92,16 @@ export default async function HomePage() {
           <div className="relative max-w-2xl mx-auto px-6 py-12 flex flex-col items-center text-center gap-5">
             <Image
               src="/logo.svg"
-              alt="SCHWIND Bräu"
+              alt="SCHWIND AM DALBERG"
               width={180}
               height={111}
               className="drop-shadow-2xl"
               priority
             />
-            <p className="text-white/80 text-sm tracking-wide uppercase">Brauerei & Gaststätte</p>
+            <div className="flex flex-col items-center gap-0.5">
+              <p className="text-xs font-semibold tracking-[0.18em] uppercase text-white/50">Brauerei & Gaststätte</p>
+              <p className="text-xs tracking-widest uppercase text-white/40">Seit 1761 · Erlenbach am Main</p>
+            </div>
             <div
               className={[
                 "inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full",
@@ -197,7 +200,10 @@ export default async function HomePage() {
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[var(--color-accent)] mt-0.5 shrink-0" />
                 <div>
-                  <p className="text-sm font-medium text-[var(--color-text)]">SCHWIND Bräu</p>
+                  <p className="text-sm font-medium text-[var(--color-text)]">
+                  <span style={{ color: "var(--color-brand)" }}>SCHWIND</span>{" "}
+                  <span style={{ color: "var(--color-brand-red)" }}>AM DALBERG</span>
+                </p>
                   <p className="text-sm text-[var(--color-muted)]">Am Streitberg 28 · 63906 Erlenbach am Main</p>
                   <a
                     href="https://maps.google.com/?q=Am+Streitberg+28,+63906+Erlenbach+am+Main"

@@ -12,13 +12,13 @@ const jakarta = Plus_Jakarta_Sans({
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SCHWIND Bräu",
-  description: "Seit 1761 – Bier mit Heimatgefühl. Treuepunkte, Events & Reservierungen.",
+  title: "SCHWIND AM DALBERG",
+  description: "Seit 1761 – Brauerei & Gaststätte in Erlenbach am Main. Treuepunkte, Events & Reservierungen.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Schwindbräu",
+    title: "SCHWIND AM DALBERG",
   },
   other: {
     // Full-screen PWA on iOS

@@ -1,7 +1,7 @@
 {
-  "name": "SCHWIND Bräu",
-  "short_name": "Schwindbräu",
-  "description": "Treuepunkte, Events & Reservierungen – deine Stammgast-App",
+  "name": "SCHWIND AM DALBERG",
+  "short_name": "SCHWIND",
+  "description": "Brauerei & Gaststätte seit 1761 – Treuepunkte, Events & Reservierungen",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

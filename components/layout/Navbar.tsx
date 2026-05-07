@@ -21,8 +21,12 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[var(--color-border)] shadow-sm hidden md:block">
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-          <Image src="/logo-dark.svg" alt="SCHWIND Bräu" width={88} height={54} priority />
+        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <Image src="/logo-dark.svg" alt="SCHWIND AM DALBERG" width={72} height={44} priority />
+          <div className="hidden lg:flex flex-col leading-tight">
+            <span className="text-sm font-bold tracking-wider" style={{ color: "var(--color-brand)" }}>SCHWIND</span>
+            <span className="text-[11px] font-semibold tracking-widest" style={{ color: "var(--color-brand-red)" }}>AM DALBERG</span>
+          </div>
         </Link>
 
         <nav className="flex items-center gap-1">

@@ -56,7 +56,10 @@ export default function ProfilePage() {
   return (
     <div className="max-w-lg mx-auto px-4 py-8 space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-[var(--color-text)]">Profil</h1>
+        <div>
+          <p className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-0.5" style={{ color: "var(--color-brand-red)" }}>SCHWIND AM DALBERG</p>
+          <h1 className="text-2xl font-bold text-[var(--color-text)]">Profil</h1>
+        </div>
         {profile && <LevelBadge level={profile.level} />}
       </div>
 

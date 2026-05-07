@@ -103,6 +103,7 @@ export default function EventsPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 space-y-10">
       <div>
+        <p className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-1" style={{ color: "var(--color-brand-red)" }}>SCHWIND AM DALBERG</p>
         <h1 className="text-2xl font-bold text-[var(--color-text)]">Events & Führungen</h1>
         <p className="text-sm text-[var(--color-muted)] mt-1">Erlebe Schwindbräu – sammle Punkte bei jedem Event</p>
       </div>
