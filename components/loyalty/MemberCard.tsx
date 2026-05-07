@@ -4,38 +4,10 @@ import { progressToNextLevel, LEVELS } from "@/lib/utils/points";
 import { QRDrawer } from "@/components/loyalty/QRDrawer";
 import type { Level } from "@/lib/utils/points";
 
-const levelConfig: Record<Level, {
-  bg: string;
-  shimmer: string;
-  badge: string;
-  badgeText: string;
-  bar: string;
-  label: string;
-}> = {
-  bronze: {
-    bg:        "from-[#1C2836] via-[#243040] to-[#141E2B]",
-    shimmer:   "from-white/10 to-white/5",
-    badge:     "bg-white/10 border-white/20 text-white/70",
-    badgeText: "Stammgast",
-    bar:       "from-[#8B1A2A] to-[#B52236]",
-    label:     "STAMMGAST",
-  },
-  silver: {
-    bg:        "from-[#2A3244] via-[#313B50] to-[#1E2838]",
-    shimmer:   "from-white/15 to-white/5",
-    badge:     "bg-white/10 border-white/25 text-white/80",
-    badgeText: "Bierkenner",
-    bar:       "from-slate-300 to-slate-100",
-    label:     "BIERKENNER",
-  },
-  gold: {
-    bg:        "from-[#1C2836] via-[#2C3E56] to-[#141E2B]",
-    shimmer:   "from-white/20 to-white/8",
-    badge:     "bg-white/15 border-white/30 text-white/90",
-    badgeText: "Braumeister",
-    bar:       "from-white to-white/70",
-    label:     "BRAUMEISTER",
-  },
+const levelLabels: Record<Level, string> = {
+  bronze: "STAMMGAST",
+  silver: "BIERKENNER",
+  gold:   "BRAUMEISTER",
 };
 
 const nextLevelLabel: Partial<Record<Level, string>> = {
@@ -52,52 +24,75 @@ interface MemberCardProps {
 }
 
 export function MemberCard({ points, level, name, compact = false, userId }: MemberCardProps) {
-  const cfg = levelConfig[level];
   const progress = progressToNextLevel(points);
+  const label = levelLabels[level];
 
   return (
     <div
       className={[
-        "relative overflow-hidden rounded-2xl bg-gradient-to-br text-white select-none",
-        cfg.bg,
-        compact ? "p-4" : "p-6",
+        "relative overflow-hidden rounded-[22px] text-white select-none member-card-bg",
+        compact ? "p-4" : "p-[22px_22px_24px]",
       ].join(" ")}
-      style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)" }}
     >
-      {/* Decorative circles */}
-      <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/5 pointer-events-none" />
-      <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-white/5 pointer-events-none" />
-
-      {/* Shimmer stripe */}
-      <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r ${cfg.shimmer} opacity-60`} />
+      {/* Noise texture overlay */}
+      <div className="noise-overlay" aria-hidden />
 
       {/* Header row */}
       <div className="relative flex items-center justify-between mb-5">
-        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50">
-          SCHWIND Bräu
-        </span>
-        <span className={[
-          "flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full border tracking-wider",
-          cfg.badge,
-        ].join(" ")}>
-          {cfg.label}
+        {/* Wordmark */}
+        <div style={{ fontFamily: "var(--font-archivo-narrow), 'Archivo Narrow', sans-serif", lineHeight: 1 }}>
+          <div className="text-[13px] font-extrabold tracking-[0.12em] uppercase text-white">
+            SCHWIND
+          </div>
+          <div
+            className="text-[9px] font-bold tracking-[0.22em] uppercase mt-0.5"
+            style={{ color: "var(--color-gold)" }}
+          >
+            AM DALBERG
+          </div>
+        </div>
+
+        {/* Level badge */}
+        <span
+          className="text-[10px] font-bold tracking-[0.18em] uppercase px-2.5 py-1 rounded-full"
+          style={{
+            fontFamily: "var(--font-archivo-narrow), 'Archivo Narrow', sans-serif",
+            background: "rgba(255,255,255,0.10)",
+            border: "1px solid rgba(255,255,255,0.20)",
+            color: "rgba(255,255,255,0.85)",
+          }}
+        >
+          {label}
         </span>
       </div>
 
-      {/* Points */}
-      {!compact && (
-        <div className="relative mb-5 text-center">
-          <p className="text-[56px] font-black leading-none tracking-tight text-white drop-shadow-lg">
+      {/* Points display */}
+      {compact ? (
+        <div className="relative mb-3 flex items-baseline gap-2">
+          <p
+            className="text-3xl leading-none tracking-tight text-white"
+            style={{ fontFamily: "var(--font-archivo), 'Archivo', sans-serif", fontWeight: 900 }}
+          >
             {points.toLocaleString("de-DE")}
           </p>
-          <p className="text-xs text-white/50 uppercase tracking-widest mt-1">Treuepunkte</p>
+          <p className="text-xs text-white/50 uppercase tracking-wider" style={{ fontFamily: "var(--font-archivo-narrow), sans-serif", fontWeight: 700 }}>
+            Pkt.
+          </p>
         </div>
-      )}
-
-      {compact && (
-        <div className="relative mb-3 flex items-baseline gap-2">
-          <p className="text-3xl font-black text-white">{points.toLocaleString("de-DE")}</p>
-          <p className="text-xs text-white/50 uppercase tracking-wider">Pkt.</p>
+      ) : (
+        <div className="relative mb-5 text-center">
+          <p
+            className="text-[56px] leading-none tracking-tight text-white drop-shadow"
+            style={{ fontFamily: "var(--font-archivo), 'Archivo', sans-serif", fontWeight: 900, letterSpacing: "-0.04em" }}
+          >
+            {points.toLocaleString("de-DE")}
+          </p>
+          <p
+            className="text-[10px] text-white/50 uppercase tracking-widest mt-1.5"
+            style={{ fontFamily: "var(--font-archivo-narrow), sans-serif", fontWeight: 700, letterSpacing: "0.22em" }}
+          >
+            Treuepunkte
+          </p>
         </div>
       )}
 
@@ -111,17 +106,23 @@ export function MemberCard({ points, level, name, compact = false, userId }: Mem
         <div className="relative space-y-1.5">
           <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
             <div
-              className={`h-full bg-gradient-to-r ${cfg.bar} rounded-full transition-all duration-700`}
+              className="h-full rounded-full transition-all duration-700 progress-gold"
               style={{ width: `${Math.min(progress.percentage, 100)}%` }}
             />
           </div>
-          <div className="flex justify-between text-[10px] text-white/40">
+          <div
+            className="flex justify-between text-[10px] text-white/40"
+            style={{ fontFamily: "var(--font-archivo-narrow), sans-serif", fontWeight: 600, letterSpacing: "0.06em" }}
+          >
             <span>{progress.current} / {progress.max} Pkt.</span>
             <span>→ {nextLevelLabel[progress.nextLevel]}</span>
           </div>
         </div>
       ) : (
-        <p className="relative text-[11px] text-white/50 font-medium tracking-wide">
+        <p
+          className="relative text-[11px] text-white/50 font-medium tracking-wide"
+          style={{ fontFamily: "var(--font-archivo-narrow), sans-serif", fontWeight: 700, letterSpacing: "0.12em" }}
+        >
           Höchstes Level erreicht
         </p>
       )}

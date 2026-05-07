@@ -1,34 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── Neutral Base (clean, app-like) ─── */
-  --color-bg:           #F6F7F9;
+  /* ─── Base surfaces (warm iOS-style) ─── */
+  --color-bg:           #F2F1ED;
   --color-surface:      #FFFFFF;
-  --color-surface-2:    #F2F3F6;
-  --color-surface-3:    #E8EAEE;
-  --color-border:       #E3E5EA;
-  --color-border-light: #EDEEF2;
+  --color-surface-2:    #F2EEE5;
+  --color-surface-3:    #E8E3D6;
+  --color-border:       rgba(26, 24, 20, 0.10);
+  --color-border-light: rgba(26, 24, 20, 0.06);
 
-  /* ─── Primary Accent: AM DALBERG Crimson ─── */
+  /* ─── Crimson (primary accent) ─── */
   --color-accent:       #8B1A2A;
   --color-accent-hover: #6F1421;
-  --color-accent-light: #FDF2F3;
+  --color-accent-light: rgba(139, 26, 42, 0.08);
 
-  /* ─── Dark surfaces: SCHWIND Navy ─── */
+  /* ─── Navy ─── */
   --color-deep:         #243040;
   --color-deep-2:       #1C2836;
+  --color-deep-3:       #0F1822;
 
-  /* ─── Text ─── */
-  --color-text:         #111827;
-  --color-muted:        #6B7280;
-  --color-muted-light:  #9CA3AF;
+  /* ─── Gold ─── */
+  --color-gold:         #C8920A;
+  --color-gold-2:       #E0A41A;
+  --color-gold-soft:    #F0D88B;
+
+  /* ─── Warm cream surfaces ─── */
+  --color-cream:        #F2EEE5;
+  --color-cream-2:      #E8E3D6;
+  --color-paper:        #FBF9F4;
+
+  /* ─── Text (warm ink) ─── */
+  --color-text:         #1A1814;
+  --color-muted:        #6B6862;
+  --color-muted-light:  #A19E96;
+  --color-muted-warm:   #8B867A;
 
   /* ─── Semantic ─── */
   --color-success:      #16A34A;
   --color-warning:      #D97706;
   --color-danger:       #DC2626;
 
-  /* ─── Brand anchors (PDF) ─── */
+  /* ─── Brand anchors ─── */
   --color-brand:        #243040;   /* SCHWIND navy */
   --color-brand-red:    #8B1A2A;   /* AM DALBERG crimson */
 }
@@ -47,6 +59,8 @@
   --color-brand:        var(--color-brand);
   --color-brand-red:    var(--color-brand-red);
   --font-sans:          var(--font-jakarta);
+  --font-display:       var(--font-archivo);
+  --font-narrow:        var(--font-archivo-narrow);
   --font-mono:          var(--font-geist-mono);
 }
 
@@ -75,6 +89,10 @@ body {
   overflow: hidden;
   overscroll-behavior: none;
   background-color: var(--color-bg);
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(200, 146, 10, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 85% 90%, rgba(139, 26, 42, 0.03) 0%, transparent 45%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.4 0 0 0 0 0.36 0 0 0 0 0.3 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
   color: var(--color-text);
   font-family: var(--font-sans), "Plus Jakarta Sans", system-ui, sans-serif;
   line-height: 1.55;
@@ -192,6 +210,7 @@ a:active, button:active { opacity: 0.78; }
    Typography helpers
 ───────────────────────────────────────────── */
 .text-display {
+  font-family: var(--font-archivo), sans-serif;
   font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.1;
@@ -201,4 +220,85 @@ a:active, button:active { opacity: 0.78; }
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────────────
+   Design system components
+───────────────────────────────────────────── */
+
+/* Eyebrow label (Archivo Narrow, uppercase, crimson) */
+.eyebrow {
+  font-family: var(--font-archivo-narrow), "Archivo Narrow", sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Section label (muted eyebrow) */
+.section-label {
+  font-family: var(--font-archivo-narrow), "Archivo Narrow", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Large numeric display (Archivo Black) */
+.num-display {
+  font-family: var(--font-archivo), "Archivo", sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  line-height: 0.9;
+}
+
+/* Member card — navy gradient with gold+crimson radial overlays */
+.member-card-bg {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(200, 146, 10, 0.22) 0%, transparent 55%),
+    radial-gradient(100% 80% at 100% 100%, rgba(139, 26, 42, 0.32) 0%, transparent 55%),
+    linear-gradient(160deg, #243040 0%, #1C2836 50%, #0F1822 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 40px -16px rgba(15, 24, 34, 0.55);
+}
+
+/* Gold progress fill */
+.progress-gold {
+  background: linear-gradient(90deg, var(--color-gold) 0%, var(--color-gold-2) 100%);
+}
+
+/* iOS-style tab bar */
+.tab-bar-ios {
+  background: rgba(251, 249, 244, 0.88);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+
+/* Reward card visual header (navy bg, gold icon) */
+.reward-visual {
+  background:
+    radial-gradient(80% 80% at 50% 100%, rgba(200, 146, 10, 0.15) 0%, transparent 70%),
+    var(--color-deep-2, #1C2836);
+}
+
+/* Tile card */
+.tile-card {
+  background: var(--color-surface);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+/* Noise overlay (placed inside .member-card-bg via a child div) */
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.7' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  border-radius: inherit;
 }

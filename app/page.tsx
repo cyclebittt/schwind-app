@@ -118,18 +118,30 @@ export default async function HomePage() {
       <Navbar />
       <main className="flex-1 app-scroll">
 
-        {/* ── Hero: solid navy, no image ── */}
-        <div className="bg-[var(--color-deep)] px-5 pt-7 pb-8">
+        {/* ── Hero: navy with noise texture ── */}
+        <div
+          className="px-5 pt-7 pb-8 relative overflow-hidden"
+          style={{
+            background: [
+              "radial-gradient(80% 60% at 50% 0%, rgba(200,146,10,0.18) 0%, transparent 60%)",
+              "linear-gradient(180deg, #1C2836 0%, #0F1822 100%)",
+            ].join(", "),
+          }}
+        >
+          {/* Noise grain */}
+          <div className="noise-overlay" aria-hidden />
+
           {/* Top row */}
-          <div className="flex items-center justify-between mb-7">
+          <div className="relative flex items-center justify-between mb-6">
             {/* Open/closed pill */}
             <span
               className={[
-                "inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full",
+                "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full",
                 open
                   ? "bg-green-500/20 text-green-300 border border-green-500/30"
-                  : "bg-white/8 text-white/40 border border-white/15",
+                  : "bg-white/8 text-white/35 border border-white/12",
               ].join(" ")}
+              style={{ fontFamily: "var(--font-archivo-narrow), sans-serif", fontWeight: 700, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase" }}
             >
               <span className={`w-1.5 h-1.5 rounded-full ${open ? "bg-green-400 animate-pulse" : "bg-white/25"}`} />
               {open ? "Geöffnet" : "Geschlossen"}
@@ -141,38 +153,51 @@ export default async function HomePage() {
               alt="SCHWIND AM DALBERG"
               width={44}
               height={27}
-              className="opacity-85"
+              className="opacity-85 relative"
               priority
             />
           </div>
 
           {/* Greeting */}
-          <h1 className="text-[28px] font-black text-white leading-tight tracking-tight mb-5">
+          <h1
+            className="relative text-[30px] text-white leading-tight mb-5"
+            style={{ fontFamily: "var(--font-archivo), 'Archivo', sans-serif", fontWeight: 800, letterSpacing: "-0.025em" }}
+          >
             {greeting}
           </h1>
 
           {/* Points progress block */}
           {profile ? (
-            <Link href="/loyalty" className="block group">
+            <Link href="/loyalty" className="block group relative">
               <div className="space-y-2.5">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-black text-white leading-none">{pts.toLocaleString("de-DE")}</span>
-                  <span className="text-sm text-white/50">Punkte</span>
+                  <span
+                    className="text-[44px] leading-none text-white"
+                    style={{ fontFamily: "var(--font-archivo), 'Archivo', sans-serif", fontWeight: 900, letterSpacing: "-0.04em" }}
+                  >
+                    {pts.toLocaleString("de-DE")}
+                  </span>
+                  <span
+                    className="text-white/50 uppercase"
+                    style={{ fontFamily: "var(--font-archivo-narrow), sans-serif", fontWeight: 700, fontSize: 11, letterSpacing: "0.18em" }}
+                  >
+                    Punkte
+                  </span>
                 </div>
                 <p className="text-sm text-white/55">
                   Noch <span className="text-white font-semibold">{ptsToNextBeer} Punkte</span> bis zu einem kostenlosen Bier
                 </p>
-                {/* Progress bar */}
+                {/* Gold progress bar */}
                 <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-white/60 rounded-full transition-all duration-700"
+                    className="h-full rounded-full transition-all duration-700 progress-gold"
                     style={{ width: `${progressPct}%` }}
                   />
                 </div>
               </div>
             </Link>
           ) : (
-            <div className="space-y-3">
+            <div className="relative space-y-3">
               <p className="text-sm text-white/50">
                 Melde dich an und sammle Treuepunkte bei jedem Besuch.
               </p>
@@ -195,7 +220,8 @@ export default async function HomePage() {
 
             {/* ── Aktuelle Angebote ── */}
             <section>
-              <h2 className="text-base font-bold text-[var(--color-text)] mb-3">Aktuelle Angebote</h2>
+              <p className="eyebrow mb-1">Aktuell</p>
+              <h2 className="text-xl font-bold text-[var(--color-text)] mb-3" style={{ fontFamily: "var(--font-archivo), sans-serif", fontWeight: 800, letterSpacing: "-0.02em" }}>Aktuelle Angebote</h2>
               <div className="space-y-2.5">
                 {posts
                   .filter((p) => p.type === "special" || p.pinned)
@@ -222,7 +248,7 @@ export default async function HomePage() {
             {/* ── Nächste Events ── */}
             <section>
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-base font-bold text-[var(--color-text)]">Nächste Events</h2>
+                <h2 className="text-xl font-bold text-[var(--color-text)]" style={{ fontFamily: "var(--font-archivo), sans-serif", fontWeight: 800, letterSpacing: "-0.02em" }}>Nächste Events</h2>
                 <Link href="/events" className="text-xs text-[var(--color-muted)] font-medium flex items-center gap-0.5 hover:text-[var(--color-text)] transition-colors">
                   Alle <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
@@ -249,7 +275,7 @@ export default async function HomePage() {
 
             {/* ── Neuigkeiten ── */}
             <section>
-              <h2 className="text-base font-bold text-[var(--color-text)] mb-3">Neuigkeiten</h2>
+              <h2 className="text-xl font-bold text-[var(--color-text)] mb-3" style={{ fontFamily: "var(--font-archivo), sans-serif", fontWeight: 800, letterSpacing: "-0.02em" }}>Neuigkeiten</h2>
               <NewsFeed posts={posts} />
             </section>
 
@@ -257,7 +283,7 @@ export default async function HomePage() {
 
             {/* ── Kontakt ── */}
             <section>
-              <h2 className="text-base font-bold text-[var(--color-text)] mb-3">Besuche uns</h2>
+              <h2 className="text-xl font-bold text-[var(--color-text)] mb-3" style={{ fontFamily: "var(--font-archivo), sans-serif", fontWeight: 800, letterSpacing: "-0.02em" }}>Besuche uns</h2>
               <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 space-y-4 card-shadow">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-[var(--color-muted)] mt-0.5 shrink-0" />

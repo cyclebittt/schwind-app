@@ -53,8 +53,13 @@ export default async function LoyaltyPage() {
     <div className="max-w-2xl mx-auto px-4 py-8 space-y-8">
 
       <div>
-        <p className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-1" style={{ color: "var(--color-brand-red)" }}>SCHWIND AM DALBERG</p>
-        <h1 className="text-2xl font-bold text-[var(--color-text)]">Treuepunkte</h1>
+        <p className="eyebrow mb-1">SCHWIND AM DALBERG</p>
+        <h1
+          className="text-3xl text-[var(--color-text)]"
+          style={{ fontFamily: "var(--font-archivo), 'Archivo', sans-serif", fontWeight: 800, letterSpacing: "-0.025em" }}
+        >
+          Treuepunkte
+        </h1>
         <p className="text-sm text-[var(--color-muted)] mt-1">Sammle Punkte bei jedem Bierkauf</p>
       </div>
 
@@ -68,7 +73,7 @@ export default async function LoyaltyPage() {
       {/* Level benefits */}
       {levelBenefits[profile?.level ?? ""] && (
         <section>
-          <h2 className="text-xs text-[var(--color-muted)] uppercase tracking-wider mb-3">Deine Vorteile</h2>
+          <h2 className="section-label mb-3">Deine Vorteile</h2>
           <ul className="space-y-2">
             {levelBenefits[profile?.level ?? ""]?.map((b) => (
               <li key={b} className="flex items-center gap-2 text-sm text-[var(--color-text)]">
@@ -81,17 +86,17 @@ export default async function LoyaltyPage() {
 
       {/* How to earn points */}
       <section className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-5 card-shadow">
-        <h2 className="text-xs text-[var(--color-muted)] uppercase tracking-wider mb-4">So sammelst du Punkte</h2>
+        <h2 className="section-label mb-4">So sammelst du Punkte</h2>
         <div className="space-y-2">
           {BEER_TYPES.map((beer) => (
             <div key={beer.id} className="flex items-center justify-between text-sm">
               <span className="text-[var(--color-text)]">{beer.name}</span>
-              <span className="font-mono font-semibold text-[var(--color-accent)]">+{beer.points} Pkt.</span>
+              <span className="font-semibold" style={{ fontFamily: "var(--font-archivo-narrow), sans-serif", fontWeight: 700, letterSpacing: "0.06em", color: "var(--color-gold)" }}>+{beer.points} Pkt.</span>
             </div>
           ))}
           <div className="flex items-center justify-between text-sm pt-2 border-t border-[var(--color-border)]">
             <span className="text-[var(--color-text)]">Tischreservierung</span>
-            <span className="font-mono font-semibold text-[var(--color-accent)]">+8 Pkt.</span>
+            <span className="font-semibold" style={{ fontFamily: "var(--font-archivo-narrow), sans-serif", fontWeight: 700, letterSpacing: "0.06em", color: "var(--color-gold)" }}>+8 Pkt.</span>
           </div>
         </div>
         <p className="text-xs text-[var(--color-muted)] mt-3">
@@ -101,7 +106,7 @@ export default async function LoyaltyPage() {
 
       {/* Rewards */}
       <section>
-        <h2 className="text-xs text-[var(--color-muted)] uppercase tracking-wider mb-4">Prämien einlösen</h2>
+        <h2 className="section-label mb-4">Prämien einlösen</h2>
         <RewardsList
           rewards={rewards}
           userPoints={profile?.points ?? 0}
@@ -115,7 +120,7 @@ export default async function LoyaltyPage() {
 
       {/* History */}
       <section>
-        <h2 className="text-xs text-[var(--color-muted)] uppercase tracking-wider mb-3">Punkte-Historie</h2>
+        <h2 className="section-label mb-3">Punkte-Historie</h2>
         <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl px-4 card-shadow">
           <TransactionHistory transactions={transactions} />
         </div>

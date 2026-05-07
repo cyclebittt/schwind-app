@@ -3,32 +3,45 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useUserPoints } from "@/lib/hooks/useUserPoints";
-import { Zap, CheckCircle2 } from "lucide-react";
 
 const CHECK_IN_POINTS = 5;
+
+// Generate 7-day streak display (Mon–today)
+function buildWeekStamps(todayCheckedIn: boolean) {
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0=Sun
+  // Shift so week starts Monday
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const stamps = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + mondayOffset + i);
+    const isToday = d.toDateString() === today.toDateString();
+    const isPast = d < today && !isToday;
+    stamps.push({ date: d, isToday, isPast });
+  }
+  return stamps;
+}
+
+const DAY_LABELS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
 export function DailyCheckIn() {
   const { profile } = useUserPoints();
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "already">("idle");
-  const [streak, setStreak] = useState(0);
 
   useEffect(() => {
     if (!profile || !process.env.NEXT_PUBLIC_SUPABASE_URL) return;
-
     async function checkToday() {
       const supabase = createClient();
       const today = new Date().toISOString().slice(0, 10);
       const { data } = await supabase
         .from("point_transactions")
-        .select("id, created_at")
+        .select("id")
         .eq("user_id", profile!.id)
         .eq("reason", "Täglicher Check-in")
         .gte("created_at", `${today}T00:00:00Z`)
         .limit(1);
-
-      if (data && data.length > 0) {
-        setStatus("already");
-      }
+      if (data && data.length > 0) setStatus("already");
     }
     checkToday();
   }, [profile]);
@@ -55,48 +68,118 @@ export function DailyCheckIn() {
     }
   }
 
-  if (status === "already") {
-    return (
-      <div className="flex items-center gap-3 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl px-5 py-4 card-shadow">
-        <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center shrink-0">
-          <CheckCircle2 className="w-5 h-5 text-green-600" />
-        </div>
-        <div>
-          <p className="font-semibold text-sm text-[var(--color-text)]">Heute eingecheckt ✓</p>
-          <p className="text-xs text-[var(--color-muted)]">Morgen wieder +{CHECK_IN_POINTS} Punkte sichern</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (status === "done") {
-    return (
-      <div className="flex items-center gap-3 bg-[var(--color-accent-light)] border border-[var(--color-accent)]/20 rounded-2xl px-5 py-4 animate-scale-in">
-        <div className="w-10 h-10 rounded-full bg-[var(--color-accent)] flex items-center justify-center shrink-0">
-          <Zap className="w-5 h-5 text-white" />
-        </div>
-        <div>
-          <p className="font-bold text-sm text-[var(--color-text)]">+{CHECK_IN_POINTS} Punkte gutgeschrieben</p>
-          <p className="text-xs text-[var(--color-muted)]">Morgen wieder einloggen für mehr Punkte</p>
-        </div>
-      </div>
-    );
-  }
+  const checkedToday = status === "already" || status === "done";
+  const stamps = buildWeekStamps(checkedToday);
 
   return (
-    <button
-      onClick={handleCheckIn}
-      disabled={status === "loading"}
-      className="w-full flex items-center gap-3 bg-[var(--color-deep)] hover:bg-[var(--color-deep-2)] active:scale-[0.98] text-white rounded-2xl px-5 py-4 card-shadow transition-all duration-150 group"
+    <div
+      className="bg-[var(--color-surface)] rounded-2xl p-4"
+      style={{ boxShadow: "0 1px 3px rgba(26,24,20,0.06), 0 4px 12px rgba(26,24,20,0.05)" }}
     >
-      <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center shrink-0 group-hover:bg-white/20 transition-colors">
-        <Zap className="w-5 h-5 text-white" />
+      {/* Header */}
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <p className="section-label">Täglicher Check-in</p>
+          <p className="text-xs text-[var(--color-muted)] mt-0.5">+{CHECK_IN_POINTS} Punkte täglich</p>
+        </div>
+        {checkedToday && (
+          <span
+            className="text-[10px] px-2.5 py-1 rounded-full"
+            style={{
+              fontFamily: "var(--font-archivo-narrow), sans-serif",
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              background: "rgba(22,163,74,0.10)",
+              color: "#16A34A",
+              border: "1px solid rgba(22,163,74,0.2)",
+            }}
+          >
+            Erledigt
+          </span>
+        )}
       </div>
-      <div className="flex-1 text-left">
-        <p className="font-bold text-sm">Jetzt einchecken</p>
-        <p className="text-xs text-white/55">Täglich +{CHECK_IN_POINTS} Treuepunkte sichern</p>
+
+      {/* Stamp row */}
+      <div className="grid grid-cols-7 gap-1.5 mb-3">
+        {stamps.map((s, i) => {
+          const done = s.isPast || (s.isToday && checkedToday);
+          const todayPending = s.isToday && !checkedToday;
+          return (
+            <div key={i} className="flex flex-col items-center gap-1">
+              <div
+                className="w-full aspect-square rounded-xl flex items-center justify-center text-[11px]"
+                style={{
+                  fontFamily: "var(--font-archivo-narrow), sans-serif",
+                  fontWeight: 700,
+                  ...(done
+                    ? {
+                        background: "var(--color-deep-2, #1C2836)",
+                        color: "var(--color-gold)",
+                        boxShadow: "0 2px 6px -2px rgba(15,24,34,0.35)",
+                      }
+                    : todayPending
+                    ? {
+                        background: "var(--color-surface)",
+                        color: "var(--color-accent)",
+                        border: "2px solid var(--color-accent)",
+                      }
+                    : {
+                        background: "var(--color-paper, #FBF9F4)",
+                        color: "var(--color-muted-light)",
+                        border: "1.5px dashed rgba(26,24,20,0.18)",
+                      }),
+                }}
+              >
+                {done ? "✓" : todayPending ? "!" : "·"}
+              </div>
+              <span
+                className="text-[9px]"
+                style={{
+                  fontFamily: "var(--font-archivo-narrow), sans-serif",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  color: s.isToday ? "var(--color-accent)" : "var(--color-muted-light)",
+                }}
+              >
+                {DAY_LABELS[i]}
+              </span>
+            </div>
+          );
+        })}
       </div>
-      <span className="font-black text-base text-white/80">+{CHECK_IN_POINTS}</span>
-    </button>
+
+      {/* Action button */}
+      {!checkedToday && (
+        <button
+          onClick={handleCheckIn}
+          disabled={status === "loading"}
+          className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all active:scale-[0.98]"
+          style={{
+            fontFamily: "var(--font-archivo), 'Archivo', sans-serif",
+            fontWeight: 700,
+            background: "linear-gradient(160deg, #243040 0%, #1C2836 100%)",
+            boxShadow: "0 4px 12px -4px rgba(15,24,34,0.35)",
+          }}
+        >
+          {status === "loading" ? "Wird eingetragen…" : `Jetzt einchecken · +${CHECK_IN_POINTS} Pkt.`}
+        </button>
+      )}
+
+      {status === "done" && (
+        <div
+          className="text-xs text-center py-2 rounded-xl"
+          style={{
+            fontFamily: "var(--font-archivo-narrow), sans-serif",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            background: "rgba(22,163,74,0.08)",
+            color: "#16A34A",
+          }}
+        >
+          +{CHECK_IN_POINTS} Punkte gutgeschrieben
+        </div>
+      )}
+    </div>
   );
 }

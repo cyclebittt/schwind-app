@@ -17,49 +17,35 @@ export function BottomNav() {
 
   return (
     <nav
-      className="shrink-0 md:hidden bg-[var(--color-bg)]"
-      style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom))" }}
+      className="shrink-0 md:hidden tab-bar-ios"
+      style={{ paddingBottom: "max(28px, env(safe-area-inset-bottom))" }}
     >
-      {/* Floating pill container */}
-      <div className="mx-3 mt-1">
-        <div
-          className="bg-white/95 backdrop-blur-md rounded-2xl grid grid-cols-5 h-[62px] px-1"
-          style={{
-            boxShadow:
-              "0 4px 16px rgba(28,20,8,0.12), 0 16px 48px rgba(28,20,8,0.14), inset 0 1px 0 rgba(255,255,255,0.9)",
-          }}
-        >
-          {tabs.map(({ href, label, icon: Icon }) => {
-            const active = pathname === href || (href !== "/" && pathname.startsWith(href));
-            return (
-              <Link
-                key={href}
-                href={href}
-                className="flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-colors relative"
+      <div className="flex justify-around items-center pt-2 px-3">
+        {tabs.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href || (href !== "/" && pathname.startsWith(href));
+          return (
+            <Link
+              key={href}
+              href={href}
+              className="flex flex-col items-center gap-[3px] flex-1 py-1"
+            >
+              <Icon
+                className="w-6 h-6 transition-colors"
+                style={{ color: active ? "var(--color-accent)" : "var(--color-muted-light)" }}
+                strokeWidth={active ? 2.2 : 1.6}
+              />
+              <span
+                className="text-[10px] font-semibold transition-colors"
+                style={{
+                  fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+                  color: active ? "var(--color-accent)" : "var(--color-muted-light)",
+                }}
               >
-                {/* Active background pill */}
-                {active && (
-                  <span className="absolute inset-x-1 inset-y-1 rounded-xl bg-[var(--color-accent-light)]" />
-                )}
-                <Icon
-                  className={[
-                    "relative w-[22px] h-[22px] transition-colors",
-                    active ? "text-[var(--color-accent)]" : "text-[var(--color-muted-light)]",
-                  ].join(" ")}
-                  strokeWidth={active ? 2.2 : 1.7}
-                />
-                <span
-                  className={[
-                    "relative text-[10px] font-semibold tracking-wide transition-colors",
-                    active ? "text-[var(--color-accent)]" : "text-[var(--color-muted-light)]",
-                  ].join(" ")}
-                >
-                  {label}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
+                {label}
+              </span>
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );
