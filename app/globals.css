@@ -302,3 +302,125 @@ a:active, button:active { opacity: 0.78; }
   pointer-events: none;
   border-radius: inherit;
 }
+
+/* ─────────────────────────────────────────────
+   iOS list system
+───────────────────────────────────────────── */
+.ios-card {
+  background: var(--color-surface);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.ios-row {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.ios-row + .ios-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 0;
+  height: 0.5px;
+  background: rgba(60, 60, 67, 0.12);
+}
+
+/* ─────────────────────────────────────────────
+   Icon badge variants
+───────────────────────────────────────────── */
+.icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-badge-crimson { background: rgba(139, 26, 42, 0.10); color: var(--color-accent); }
+.icon-badge-gold    { background: rgba(200, 146, 10, 0.14); color: var(--color-gold-2); }
+.icon-badge-navy    { background: var(--color-deep-2); color: var(--color-gold); }
+.icon-badge-cream   { background: var(--color-cream); color: var(--color-deep); }
+
+/* ─────────────────────────────────────────────
+   Wheat / gold divider
+───────────────────────────────────────────── */
+.wheat-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--color-gold);
+  padding: 10px 0;
+}
+
+.wheat-divider::before,
+.wheat-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0.4;
+}
+
+/* ─────────────────────────────────────────────
+   Pill / chip
+───────────────────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--font-archivo-narrow), "Archivo Narrow", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pill-gold {
+  background: rgba(200, 146, 10, 0.16);
+  color: var(--color-gold-2);
+  border: 1px solid rgba(200, 146, 10, 0.30);
+}
+
+.pill-crimson {
+  background: rgba(139, 26, 42, 0.10);
+  color: var(--color-accent);
+}
+
+.pill-navy {
+  background: var(--color-deep-2);
+  color: #fff;
+}
+
+.pill-cream {
+  background: var(--color-cream);
+  color: var(--color-text);
+}
+
+/* ─────────────────────────────────────────────
+   Login / onboarding hero
+───────────────────────────────────────────── */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 60% at 50% 0%, rgba(200, 146, 10, 0.18) 0%, transparent 60%),
+    linear-gradient(180deg, #1C2836 0%, #0F1822 100%);
+}
+
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
