@@ -1,3 +1,6 @@
+// Always render fresh – needed so auth state (greeting, points) is up to date
+export const dynamic = "force-dynamic";
+
 import { isOpenNow, getTodayOpeningHours } from "@/lib/utils/time";
 import { MapPin, Phone, ChevronRight, Calendar, Clock } from "lucide-react";
 import Image from "next/image";

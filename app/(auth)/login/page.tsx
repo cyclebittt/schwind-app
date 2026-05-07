@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { createClient } from "@/lib/supabase/client";
 
@@ -34,7 +35,10 @@ export default function LoginPage() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        router.push("/dashboard");
+        // router.refresh() forces Next.js to re-fetch all server components
+        // so the session is visible on the homepage and all other pages
+        router.refresh();
+        router.push("/");
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Ein Fehler ist aufgetreten.");
@@ -47,14 +51,19 @@ export default function LoginPage() {
     <main className="min-h-screen bg-[var(--color-bg)] flex items-center justify-center px-4">
       <div className="w-full max-w-sm space-y-8">
 
-        <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-2xl bg-[var(--color-accent)] flex items-center justify-center mx-auto">
-            <span className="text-white font-bold text-3xl">S</span>
+        <div className="text-center space-y-3">
+          <div className="w-16 h-16 rounded-2xl bg-[var(--color-deep)] flex items-center justify-center mx-auto">
+            <Image src="/logo.svg" alt="SCHWIND AM DALBERG" width={36} height={22} />
           </div>
-          <h1 className="text-2xl font-bold text-[var(--color-text)]">SCHWIND Bräu</h1>
-          <p className="text-sm text-[var(--color-muted)]">
-            {mode === "login" ? "Melde dich an und sammle Punkte" : "Erstelle dein Konto"}
-          </p>
+          <div>
+            <h1 className="text-xl font-bold">
+              <span style={{ color: "var(--color-brand)" }}>SCHWIND</span>{" "}
+              <span style={{ color: "var(--color-brand-red)" }}>AM DALBERG</span>
+            </h1>
+            <p className="text-sm text-[var(--color-muted)] mt-1">
+              {mode === "login" ? "Melde dich an und sammle Punkte" : "Erstelle dein Konto"}
+            </p>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
