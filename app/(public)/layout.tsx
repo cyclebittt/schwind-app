@@ -9,7 +9,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <main className="flex-1 app-scroll">
         {children}
         {/* Space for floating bottom nav + home indicator */}
-        <div className="h-24 md:h-0" />
+        <div className="h-6 md:h-0" />
       </main>
       <BottomNav />
     </div>

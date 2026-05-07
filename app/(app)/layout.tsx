@@ -7,7 +7,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <Navbar />
       <main className="flex-1 app-scroll">
         {children}
-        <div className="h-24 md:h-0" />
+        <div className="h-6 md:h-0" />
       </main>
       <BottomNav />
     </div>

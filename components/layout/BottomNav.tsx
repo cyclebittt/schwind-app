@@ -17,11 +17,11 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 md:hidden"
+      className="shrink-0 md:hidden bg-[var(--color-bg)]"
       style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom))" }}
     >
       {/* Floating pill container */}
-      <div className="mx-3 mb-0">
+      <div className="mx-3 mt-1">
         <div
           className="bg-white/95 backdrop-blur-md rounded-2xl grid grid-cols-5 h-[62px] px-1"
           style={{
