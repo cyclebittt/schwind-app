@@ -57,10 +57,16 @@ export function BottomNav() {
 
   return (
     <nav
-      className="shrink-0 md:hidden tab-bar-ios"
+      className="md:hidden tab-bar-ios"
       aria-label="Hauptnavigation"
       style={{
-        /* HIG: tab bar content height = 49px, plus safe-area */
+        /* Fixed to the very bottom — never shifts, always visible */
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        /* Safe-area padding sits below the 49px content row */
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
       }}
     >

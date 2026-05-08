@@ -113,11 +113,13 @@ html {
   overflow: hidden;
   overscroll-behavior: none;
   font-size: 16px;
+  /* Safe area: top for notch/Dynamic Island, sides for landscape.
+     Bottom is handled by the fixed BottomNav's paddingBottom. */
   padding:
-    env(safe-area-inset-top)
-    env(safe-area-inset-right)
-    0
-    env(safe-area-inset-left);
+    env(safe-area-inset-top, 0px)
+    env(safe-area-inset-right, 0px)
+    0px
+    env(safe-area-inset-left, 0px);
 }
 
 body {
