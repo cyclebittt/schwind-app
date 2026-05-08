@@ -112,11 +112,12 @@ export default function ReservePage() {
               <p style={{ margin: 0, fontFamily: "var(--font-display, sans-serif)", fontWeight: 800, fontSize: 16, color: "var(--ink)", letterSpacing: "-0.01em" }}>
                 {MONTHS_DE[calMonth]} {calYear}
               </p>
-              <div style={{ display: "flex", gap: 14 }}>
-                <button type="button" onClick={prevMonth} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted)", padding: 0 }}>
+              <div style={{ display: "flex", gap: 4 }}>
+                {/* HIG: nav buttons need 44×44px hit target */}
+                <button type="button" onClick={prevMonth} style={{ width: 44, height: 44, background: "rgba(120,120,128,0.12)", border: "none", cursor: "pointer", color: "var(--ink)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
                 </button>
-                <button type="button" onClick={nextMonth} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--ink)", padding: 0 }}>
+                <button type="button" onClick={nextMonth} style={{ width: 44, height: 44, background: "rgba(120,120,128,0.12)", border: "none", cursor: "pointer", color: "var(--ink)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
                 </button>
               </div>
@@ -182,7 +183,9 @@ export default function ReservePage() {
                     disabled={busy}
                     onClick={() => setSelTime(slot)}
                     style={{
-                      padding: "12px 0", textAlign: "center", borderRadius: 12,
+                      /* HIG: min 44px hit target */
+                      minHeight: 44, display: "flex", alignItems: "center", justifyContent: "center",
+                      textAlign: "center", borderRadius: 12,
                       fontFamily: "var(--font-display, sans-serif)", fontWeight: 700, fontSize: 14,
                       fontVariantNumeric: "tabular-nums", border: "1px solid",
                       cursor: busy ? "default" : "pointer",
@@ -224,10 +227,9 @@ export default function ReservePage() {
           ].map(({ label, value, set, type, placeholder }) => (
             <div key={label} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <label style={{ fontFamily: "var(--font-narrow, sans-serif)", fontWeight: 700, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ios-secondary)" }}>{label}</label>
-              <div style={{ background: "#fff", border: "1px solid rgba(26,24,20,0.10)", borderRadius: 12, padding: "14px", fontSize: 16, color: "var(--ink)", display: "flex", alignItems: "center", minHeight: 50 }}>
-                <input required type={type} value={value} onChange={e => set(e.target.value)} placeholder={placeholder}
-                  style={{ border: "none", background: "transparent", outline: "none", width: "100%", fontSize: 16, color: "var(--ink)", fontFamily: "inherit" }} />
-              </div>
+              {/* HIG: system fill bg, 10px radius, 44px min-height, 17px body size */}
+              <input required type={type} value={value} onChange={e => set(e.target.value)} placeholder={placeholder}
+                style={{ border: "none", background: "rgba(120,120,128,0.12)", outline: "none", width: "100%", fontSize: 17, color: "var(--ink)", fontFamily: "inherit", borderRadius: 10, padding: "12px 14px", minHeight: 44, boxSizing: "border-box" }} />
             </div>
           ))}
         </div>
@@ -236,10 +238,9 @@ export default function ReservePage() {
         <div style={{ padding: "0 20px 16px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <label style={{ fontFamily: "var(--font-narrow, sans-serif)", fontWeight: 700, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ios-secondary)" }}>Anmerkungen</label>
-            <div style={{ background: "#fff", border: "1px solid rgba(26,24,20,0.10)", borderRadius: 12, padding: "14px", minHeight: 74 }}>
-              <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Allergien, Hochstuhl, besondere Wünsche…"
-                style={{ border: "none", background: "transparent", outline: "none", width: "100%", fontSize: 16, color: "var(--ink)", fontFamily: "inherit", resize: "none", lineHeight: 1.5, minHeight: 44 }} />
-            </div>
+            {/* HIG: same system fill as text inputs */}
+            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Allergien, Hochstuhl, besondere Wünsche…"
+              style={{ border: "none", background: "rgba(120,120,128,0.12)", outline: "none", width: "100%", fontSize: 17, color: "var(--ink)", fontFamily: "inherit", resize: "none", lineHeight: 1.5, minHeight: 88, borderRadius: 10, padding: "12px 14px", boxSizing: "border-box", display: "block" }} />
           </div>
         </div>
 

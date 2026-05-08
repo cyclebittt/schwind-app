@@ -8,12 +8,28 @@ import { createClient } from "@/lib/supabase/client";
 function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-      <label style={{ fontFamily: "var(--font-narrow, sans-serif)", fontWeight: 700, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.5)" }}>
+      {/* HIG: secondary label — 12pt caption, ~45% white on dark bg */}
+      <label style={{ fontFamily: "var(--font-narrow, sans-serif)", fontWeight: 700, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.45)" }}>
         {label}
       </label>
+      {/* HIG: dark-mode system fill = rgba(118,118,128,0.24), 10px radius, 44px min, 17px body */}
       <input
         {...props}
-        style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", borderRadius: 12, padding: "14px", fontSize: 16, color: "#fff", fontFamily: "inherit", outline: "none", WebkitUserSelect: "text", userSelect: "text" }}
+        style={{
+          background: "rgba(118,118,128,0.24)",
+          border: "none",
+          borderRadius: 10,
+          padding: "12px 16px",
+          minHeight: 44,
+          fontSize: 17,
+          color: "#fff",
+          fontFamily: "inherit",
+          outline: "none",
+          WebkitUserSelect: "text",
+          userSelect: "text",
+          boxSizing: "border-box" as const,
+          width: "100%",
+        }}
       />
     </div>
   );
@@ -64,7 +80,8 @@ function AuthForm({ mode, onBack }: { mode: "login" | "register"; onBack: () => 
         <Field label="Passwort" type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" />
         {error   && <p style={{ margin: 0, fontSize: 13, color: "#FDA4AF", background: "rgba(220,38,38,0.12)", borderRadius: 10, padding: "10px 14px", border: "1px solid rgba(220,38,38,0.2)" }}>{error}</p>}
         {success && <p style={{ margin: 0, fontSize: 13, color: "#86EFAC", background: "rgba(22,163,74,0.12)",  borderRadius: 10, padding: "10px 14px", border: "1px solid rgba(22,163,74,0.2)" }}>{success}</p>}
-        <button type="submit" disabled={loading} style={{ marginTop: 8, height: 56, borderRadius: 16, border: "none", cursor: "pointer", background: "linear-gradient(160deg, var(--gold) 0%, var(--gold-2) 100%)", color: "#1a1407", fontFamily: "var(--font-display, sans-serif)", fontWeight: 700, fontSize: 16, opacity: loading ? 0.7 : 1 }}>
+        {/* HIG: primary button = 50px, radius 14px, font-size 17px weight 600 */}
+        <button type="submit" disabled={loading} style={{ marginTop: 8, minHeight: 50, borderRadius: 14, border: "none", cursor: "pointer", background: "linear-gradient(160deg, var(--gold) 0%, var(--gold-2) 100%)", color: "#1a1407", fontFamily: "var(--font-display, sans-serif)", fontWeight: 600, fontSize: 17, opacity: loading ? 0.7 : 1 }}>
           {loading ? "Bitte warten…" : mode === "login" ? "Anmelden" : "Konto erstellen"}
         </button>
       </form>
@@ -108,10 +125,12 @@ function WelcomeScreen({ onLogin, onRegister }: { onLogin: () => void; onRegiste
       </div>
 
       <div style={{ marginTop: "auto", paddingBottom: 44, display: "flex", flexDirection: "column", gap: 10, position: "relative" }}>
-        <button onClick={onRegister} style={{ height: 56, borderRadius: 16, border: "none", cursor: "pointer", background: "linear-gradient(160deg, var(--gold) 0%, var(--gold-2) 100%)", color: "#1a1407", fontFamily: "var(--font-display, sans-serif)", fontWeight: 700, fontSize: 16 }}>
+        {/* HIG: primary 50px, radius 14px, 17px weight 600 */}
+        <button onClick={onRegister} style={{ minHeight: 50, borderRadius: 14, border: "none", cursor: "pointer", background: "linear-gradient(160deg, var(--gold) 0%, var(--gold-2) 100%)", color: "#1a1407", fontFamily: "var(--font-display, sans-serif)", fontWeight: 600, fontSize: 17 }}>
           Mitglied werden
         </button>
-        <button onClick={onLogin} style={{ height: 56, borderRadius: 16, cursor: "pointer", background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.18)", fontFamily: "var(--font-display, sans-serif)", fontWeight: 700, fontSize: 15 }}>
+        {/* HIG: secondary = same height, tinted bg, no border */}
+        <button onClick={onLogin} style={{ minHeight: 50, borderRadius: 14, cursor: "pointer", background: "rgba(118,118,128,0.24)", color: "#fff", border: "none", fontFamily: "var(--font-display, sans-serif)", fontWeight: 600, fontSize: 17 }}>
           Bereits Mitglied · Anmelden
         </button>
       </div>

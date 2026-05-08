@@ -22,12 +22,29 @@
   /* ─── iOS tokens ─── */
   --ios-bg:        #F2F1ED;
   --ios-card:      #FFFFFF;
-  --ios-sep:       rgba(60, 60, 67, 0.12);
+  --ios-sep:       rgba(60, 60, 67, 0.18);   /* HIG separator */
+  --ios-sep-opaque: rgba(198,198,200,0.6);   /* HIG opaqueSeparator warm */
   --ios-label:     #1A1814;
   --ios-secondary: #6B6862;
   --ios-tertiary:  #A19E96;
-  --ios-radius:    14px;
-  --ios-radius-lg: 22px;
+  --ios-radius:    10px;     /* HIG grouped-list cell radius */
+  --ios-radius-md: 14px;     /* medium cards */
+  --ios-radius-lg: 20px;     /* large cards */
+  --ios-radius-xl: 28px;     /* hero cards / sheets */
+
+  /* ─── HIG spacing grid (8pt base) ─── */
+  --sp-1: 8px;
+  --sp-2: 16px;    /* standard horizontal inset */
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-5: 40px;
+
+  /* ─── HIG hit-target minimum ─── */
+  --hit: 44px;
+
+  /* ─── Spring-like timing ─── */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-ios: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   /* ─── Legacy aliases (keep existing references working) ─── */
   --color-bg:           #F2F1ED;
@@ -114,7 +131,7 @@ body {
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.4 0 0 0 0 0.36 0 0 0 0 0.3 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
   color: var(--ink);
   font-family: var(--font-sans), "Plus Jakarta Sans", system-ui, sans-serif;
-  line-height: 1.55;
+  line-height: 1.47;   /* HIG body line-height ~1.4–1.5 */
   -webkit-user-select: none;
   user-select: none;
 }
@@ -147,7 +164,23 @@ p, h1, h2, h3, span, li, td, input, textarea {
   border-radius: 6px;
 }
 
-a:active, button:active { opacity: 0.78; }
+/* HIG tap feedback: scale + opacity, spring out */
+a, button {
+  transition:
+    opacity 0.12s var(--ease-out-ios),
+    transform 0.12s var(--ease-out-ios);
+}
+a:active, button:active {
+  opacity: 0.72;
+  transform: scale(0.97);
+}
+
+/* Restore instantly on release — matches iOS spring */
+a:not(:active), button:not(:active) {
+  transition:
+    opacity 0.28s var(--spring),
+    transform 0.28s var(--spring);
+}
 
 /* ─────────────────────────────────────────────
    Typography
@@ -209,6 +242,21 @@ a:active, button:active { opacity: 0.78; }
   padding: 0 20px 8px;
   display: block;
 }
+
+/* ── Apple HIG Dynamic Type Scale ──────────────────
+   Sizes in px (= pt on 1×). All use SF Pro / system font.
+   Source: HIG Typography — "Text Styles" table.           */
+.ios-large-title { font-size: 34px; font-weight: 700; letter-spacing: 0.37px; line-height: 41px; }
+.ios-title-1     { font-size: 28px; font-weight: 700; letter-spacing: 0.36px; line-height: 34px; }
+.ios-title-2     { font-size: 22px; font-weight: 700; letter-spacing: 0.35px; line-height: 28px; }
+.ios-title-3     { font-size: 20px; font-weight: 600; letter-spacing: 0.38px; line-height: 25px; }
+.ios-headline    { font-size: 17px; font-weight: 600; letter-spacing: -0.41px; line-height: 22px; }
+.ios-body        { font-size: 17px; font-weight: 400; letter-spacing: -0.41px; line-height: 22px; }
+.ios-callout     { font-size: 16px; font-weight: 400; letter-spacing: -0.32px; line-height: 21px; }
+.ios-subheadline { font-size: 15px; font-weight: 400; letter-spacing: -0.24px; line-height: 20px; }
+.ios-footnote    { font-size: 13px; font-weight: 400; letter-spacing: -0.08px; line-height: 18px; }
+.ios-caption-1   { font-size: 12px; font-weight: 400; letter-spacing:  0px;   line-height: 16px; }
+.ios-caption-2   { font-size: 11px; font-weight: 400; letter-spacing:  0.07px; line-height: 13px; }
 
 /* Large numeric (Archivo Black) */
 .num-display {
@@ -288,15 +336,27 @@ a:active, button:active { opacity: 0.78; }
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+/* HIG-style: spring scale-in — overshoots slightly then settles */
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
+  from { opacity: 0; transform: scale(0.88); }
   to   { opacity: 1; transform: scale(1); }
+}
+/* HIG sheet slide-up */
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* HIG: spin for loaders */
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .brand-glow        { animation: brand-pulse 2.2s ease-in-out infinite; }
 .gold-glow         { animation: brand-pulse 2.2s ease-in-out infinite; }
-.animate-fade-up   { animation: fade-up 320ms ease both; }
-.animate-scale-in  { animation: scale-in 220ms ease both; }
+/* HIG durations: 0.3–0.5s spring */
+.animate-fade-up   { animation: fade-up 350ms var(--spring) both; }
+.animate-scale-in  { animation: scale-in 300ms var(--spring) both; }
+.animate-slide-up  { animation: slide-up 350ms var(--spring) both; }
 
 .skeleton {
   background: linear-gradient(90deg,
@@ -318,19 +378,43 @@ a:active, button:active { opacity: 0.78; }
 }
 
 .ios-row {
-  padding: 14px 16px;
+  padding: 12px 16px;
+  min-height: var(--hit);      /* HIG: list row minimum 44px */
   display: flex;
   align-items: center;
   gap: 12px;
   position: relative;
 }
 
+/* HIG: separator indented past leading icon (52px = 16px margin + 28px icon + 8px gap) */
 .ios-row + .ios-row::before {
   content: '';
   position: absolute;
-  top: 0; left: 16px; right: 0;
+  top: 0; left: 52px; right: 0;
   height: 0.5px;
   background: var(--ios-sep);
+}
+
+/* ── iOS Form Inputs (HIG compliant) ──────────────── */
+.ios-input {
+  width: 100%;
+  min-height: var(--hit);            /* HIG: 44px minimum */
+  background: rgba(120, 120, 128, 0.12);  /* HIG: system fill */
+  border: none;
+  border-radius: 10px;               /* HIG: text-field radius */
+  padding: 11px 14px;
+  font-size: 17px;                   /* HIG: body size */
+  font-family: inherit;
+  color: var(--ink);
+  outline: none;
+  box-sizing: border-box;
+  transition: background 0.15s var(--ease-out-ios);
+}
+.ios-input:focus {
+  background: rgba(120, 120, 128, 0.16);
+}
+.ios-input::placeholder {
+  color: var(--ios-tertiary);
 }
 
 /* ─────────────────────────────────────────────
@@ -423,22 +507,26 @@ a:active, button:active { opacity: 0.78; }
   justify-content: center;
   gap: 8px;
   font-family: var(--font-sans), sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  border-radius: 12px;
-  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 17px;             /* HIG: primary button = body/headline size */
+  border-radius: 14px;         /* HIG: rounded-rect button = 14px */
+  min-height: var(--hit);      /* HIG: minimum 44px hit target */
+  padding: 0 20px;
   border: none;
   cursor: pointer;
-  letter-spacing: -0.01em;
-  transition: opacity 0.15s;
+  letter-spacing: -0.02em;
 }
-.btn.primary { background: var(--crimson); color: #fff; }
-.btn.dark    { background: var(--navy); color: #fff; }
-.btn.gold    { background: var(--gold); color: #1a1407; }
-.btn.ghost   { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+/* HIG primary = filled, full-width preferred */
+.btn.primary { background: var(--crimson); color: #fff; min-height: 50px; border-radius: 14px; }
+.btn.dark    { background: var(--navy);    color: #fff; min-height: 50px; }
+.btn.gold    { background: linear-gradient(160deg, var(--gold) 0%, var(--gold-2) 100%); color: #1a1407; min-height: 50px; }
+.btn.ghost   { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.18); }
 .btn.outline { background: transparent; color: var(--crimson); border: 1.5px solid var(--crimson); }
 .btn.full    { width: 100%; }
-.btn.sm      { padding: 10px 14px; font-size: 14px; }
+/* HIG: secondary/compact — still meets 44px */
+.btn.sm      { min-height: var(--hit); padding: 0 16px; font-size: 15px; border-radius: 12px; }
+/* HIG: destructive styling */
+.btn.destructive { background: rgba(220,38,38,0.10); color: #DC2626; }
 
 /* ─────────────────────────────────────────────
    Stamp grid (check-in)

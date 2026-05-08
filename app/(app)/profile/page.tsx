@@ -11,13 +11,23 @@ interface Profile { id: string; name: string; email?: string; phone: string | nu
 
 function Row({ icon, label, right, red }: { icon: React.ReactNode; label: string; right?: React.ReactNode; red?: boolean }) {
   return (
-    <div style={{ padding: "13px 16px", display: "flex", alignItems: "center", gap: 12, position: "relative" }}>
-      <div style={{ width: 32, height: 32, borderRadius: 10, background: red ? "rgba(139,26,42,0.10)" : "rgba(200,146,10,0.14)", color: red ? "var(--crimson)" : "var(--gold-2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+    /* HIG: list row min-height 44px, horizontal inset 16px */
+    <div style={{ padding: "0 16px", minHeight: 44, display: "flex", alignItems: "center", gap: 12, position: "relative" }}>
+      {/* HIG: Settings-style icon badge = 29×29pt, radius 7pt (squircle ~24%) */}
+      <div style={{
+        width: 29, height: 29,
+        borderRadius: 7,
+        background: red ? "rgba(220,38,38,0.10)" : "rgba(200,146,10,0.14)",
+        color: red ? "#DC2626" : "var(--gold-2)",
+        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+      }}>
         {icon}
       </div>
-      <p style={{ margin: 0, flex: 1, fontSize: 14, fontWeight: 600, color: red ? "var(--crimson)" : "var(--ink)" }}>{label}</p>
+      {/* HIG: body text = 17px, weight 400, letter-spacing -0.41px */}
+      <p style={{ margin: 0, flex: 1, fontSize: 17, fontWeight: 400, letterSpacing: "-0.41px", color: red ? "#DC2626" : "var(--ink)" }}>{label}</p>
       {right ?? (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        /* HIG: chevron = rgba(60,60,67,0.30), strokeWidth 2.2 */
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(60,60,67,0.30)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       )}
     </div>
   );
@@ -124,13 +134,15 @@ export default function ProfilePage() {
             ].map(({ label, value, set, type, placeholder }) => (
               <div key={label} style={{ marginBottom: 12 }}>
                 <label style={{ fontFamily: "var(--font-narrow, sans-serif)", fontWeight: 700, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ios-secondary)", display: "block", marginBottom: 6 }}>{label}</label>
+                {/* HIG: system fill, 10px radius, 44px min-height, 17px body */}
                 <input type={type} value={value} onChange={e => set(e.target.value)} placeholder={placeholder}
-                  style={{ width: "100%", background: "var(--ios-bg)", border: "1px solid rgba(26,24,20,0.10)", borderRadius: 12, padding: "12px 14px", fontSize: 16, color: "var(--ink)", fontFamily: "inherit", outline: "none", boxSizing: "border-box" }} />
+                  style={{ width: "100%", background: "rgba(120,120,128,0.12)", border: "none", borderRadius: 10, padding: "12px 14px", minHeight: 44, fontSize: 17, color: "var(--ink)", fontFamily: "inherit", outline: "none", boxSizing: "border-box" }} />
               </div>
             ))}
-            <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
-              <button type="button" onClick={() => setEditing(false)} style={{ flex: 1, height: 48, borderRadius: 12, border: "1px solid rgba(26,24,20,0.12)", background: "transparent", color: "var(--muted)", cursor: "pointer", fontFamily: "var(--font-display, sans-serif)", fontWeight: 700, fontSize: 14 }}>Abbrechen</button>
-              <button type="submit" disabled={saving} style={{ flex: 1, height: 48, borderRadius: 12, border: "none", background: saved ? "#16A34A" : "var(--navy)", color: "#fff", cursor: "pointer", fontFamily: "var(--font-display, sans-serif)", fontWeight: 700, fontSize: 14, opacity: saving ? 0.7 : 1 }}>
+            {/* HIG: primary = 50px, secondary = 50px, radius 14px */}
+            <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+              <button type="button" onClick={() => setEditing(false)} style={{ flex: 1, minHeight: 50, borderRadius: 14, border: "1px solid rgba(60,60,67,0.18)", background: "transparent", color: "var(--ios-secondary)", cursor: "pointer", fontFamily: "var(--font-display, sans-serif)", fontWeight: 600, fontSize: 17 }}>Abbrechen</button>
+              <button type="submit" disabled={saving} style={{ flex: 1, minHeight: 50, borderRadius: 14, border: "none", background: saved ? "#16A34A" : "var(--navy)", color: "#fff", cursor: "pointer", fontFamily: "var(--font-display, sans-serif)", fontWeight: 600, fontSize: 17, opacity: saving ? 0.7 : 1 }}>
                 {saved ? "Gespeichert ✓" : saving ? "…" : "Speichern"}
               </button>
             </div>
@@ -145,7 +157,7 @@ export default function ProfilePage() {
           <button type="button" onClick={() => setEditing(e => !e)} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
             <Row icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>} label="Persönliche Daten" />
           </button>
-          <div style={{ height: "0.5px", background: "rgba(60,60,67,0.12)", marginLeft: 60 }} />
+          <div style={{ height: "0.5px", background: "rgba(60,60,67,0.12)", marginLeft: 57 }} />
           <Row
             icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M5 8a7 7 0 0 1 14 0v6l2 4H3l2-4z"/><path d="M9 19a3 3 0 0 0 6 0"/></svg>}
             label="Mitteilungen"
@@ -163,12 +175,12 @@ export default function ProfilePage() {
             label="Freund einladen"
             right={<span style={{ background: "rgba(200,146,10,0.16)", color: "var(--gold-2)", border: "1px solid rgba(200,146,10,0.30)", borderRadius: 999, fontFamily: "var(--font-narrow, sans-serif)", fontWeight: 700, fontSize: 9, letterSpacing: "0.16em", textTransform: "uppercase", padding: "4px 10px" }}>+20 Pkt.</span>}
           />
-          <div style={{ height: "0.5px", background: "rgba(60,60,67,0.12)", marginLeft: 60 }} />
+          <div style={{ height: "0.5px", background: "rgba(60,60,67,0.12)", marginLeft: 57 }} />
           <Row
             icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0z"/><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7"/></svg>}
             label="Hilfe & Kontakt"
           />
-          <div style={{ height: "0.5px", background: "rgba(60,60,67,0.12)", marginLeft: 60 }} />
+          <div style={{ height: "0.5px", background: "rgba(60,60,67,0.12)", marginLeft: 57 }} />
           <button type="button" onClick={handleLogout} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
             <Row
               icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M14 4h5v16h-5M9 12H3m0 0 4-4m-4 4 4 4"/></svg>}
